@@ -1,0 +1,20 @@
+slug: untitled-track-g9rgcx
+id: nc1fzutwzscb
+title: Intro To IRIS WIP
+description: ""
+icon: ""
+tags: []
+owner: intersystems
+developers:
+- gubsing@hotmail.com
+idle_timeout: 300
+timelimit: 1200
+sandbox_preset: iris-data-platform
+lab_config:
+  sidebar_enabled: true
+  feedback_recap_enabled: true
+  feedback_tab_enabled: false
+  loadingMessages: true
+  hideStopButton: false
+checksum: "3216103104415750422"
+enhanced_loading: false

@@ -1,0 +1,77 @@
+---
+slug: untitled-challenge-ntemu4
+id: 7qkwhsitgiy1
+type: challenge
+title: Execution Engine
+notes:
+- type: text
+  contents: |-
+    # Execution Engine
+
+    InterSystems IRIS is not just a SQL database.
+
+    Like other enterprise databases, it supports server-side logic, but IRIS distinguishes itself by integrating a broader runtime directly into the platform, including ObjectScript and Embedded Python running in the same process as the database engine.
+
+    Executing workflows and procedures inside the platform reduces the need to move data and improves efficiency for data-intensive tasks. This benefit, is one of the many features that makes IRIS such an efficient data platform.
+tabs:
+- id: kj8leeex7y0j
+  title: VS Code
+  type: service
+  hostname: vscode
+  path: /?folder=/opt/intersystems/src/challenge-3/
+  port: 8080
+- id: oo4wceug1nxg
+  title: IRIS
+  type: service
+  hostname: iris
+  path: /csp/sys/exp/%25CSP.UI.Portal.SQL.Home.zen?$NAMESPACE=USER
+  port: 52773
+- id: u28zpi6czwxf
+  title: Terminal
+  type: terminal
+  hostname: iris
+difficulty: ""
+enhanced_loading: null
+---
+This is VS Code, a standard Integrated Developer Environment, or fancy code editor for the non-technical. VS Code is the recommended IDE for IRIS, and there are a number of extensions that supercharge the VS Code-IRIS connection.
+
+> From the explorer menu on the left, open the Intro/ProductChanges.cls file.
+
+This is an IRIS class. We won't go into detail about the code at the moment, although there are plenty more tutorials available if you would like to find out more. Instead we are going to use the two functions inside the class to demonstrate how to run code in IRIS.
+
+>Right click on the file in the explorer panel and click "Import and Compile".
+
+This will import the class into IRIS, and compile it so we can run the methods. At the moment, the file is defined on a different server, so this is just to import it into IRIS, don't worry too much about it for now.
+
+> Next switch to the [Terminal Tab](tab-2)  and run the following command
+
+```objectscript,run
+do ##class(Intro.ProductChanges).PrintProductDetails("SKU-976")
+```
+
+This function retrives the product details from the database, given by the SKU ID value, and prints the details to the terminal. The method can be seen defined in the file we were looking at in [VS Code](tab-0), and is written in ObjectScript. If you want proof its it accessing real values in the database the database, try running the data with some other ID values: "SKU-222", "SKU-199", "SKU-712".
+
+Lets try the other method in the file, which is used to change the price of the product in the database. HoleFoods has had a good sales year and wants to reduce the price for customers! Our Gummy Rings are going from 2.99 to 1.99.
+
+> In the terminal, run the following command
+
+```objectscript,run
+do ##class(Intro.ProductChanges).ChangeProductPrice("SKU-976", 1.99)
+```
+
+This function is contained in the same file as the PrintProductDetails function, but is written in a different language! This time we are accessing the data directly with Python. Since 2022, IRIS has included Python as an embedded language. Meaning the latency-saving gains of running code next to the data can also be accessed with Python, the most popular programming language in the world.
+
+> Just to double check our price change worked - lets run the first command again:
+
+```objectscript,run
+do ##class(Intro.ProductChanges).PrintProductDetails("SKU-976")
+```
+
+Finally, lets return to the Management Portal to see the change from there.
+
+> Open the [IRIS tab](tab-1), then paste the following command into the command box, and click execute
+
+```sql
+SELECT ID, Category, Name, Price FROM HoleFoods.Product WHERE ID='SKU-976'
+```
+And yes, the price has changed to 1.99, our customers will be so pleased!

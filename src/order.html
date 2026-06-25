@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HoleFoods Order</title>
+  <style>
+    body { font-family: sans-serif; max-width: 400px; margin: 60px auto; }
+    label { display: block; margin-top: 12px; }
+    input { width: 100%; padding: 6px; margin-top: 4px; box-sizing: border-box; }
+    button { margin-top: 16px; padding: 8px 24px; }
+    #result { margin-top: 20px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h2>Place an Order</h2>
+  <form id="orderForm">
+    <label>SKU
+      <input type="text" name="sku" value="SKU-976" required>
+    </label>
+    <label>Quantity
+      <input type="number" name="quantity" value="1" min="0" required>
+    </label>
+    <button type="submit">Submit Order</button>
+  </form>
+  <div id="result"></div>
+
+  <script>
+    document.getElementById('orderForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const sku = this.sku.value.trim();
+      const quantity = parseInt(this.quantity.value, 10);
+      const result = document.getElementById('result');
+      result.textContent = 'Sending...';
+      try {
+        const resp = await fetch('/api/holeFoods/order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ SKU: sku, Quantity: quantity })
+        });
+        result.textContent = await resp.text();
+      } catch (err) {
+        result.textContent = 'Error: ' + err.message;
+      }
+    });
+  </script>
+</body>
+</html>

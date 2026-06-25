@@ -1,0 +1,5 @@
+host = "localhost"
+web_port = 52773
+namespace = "USER"
+username = "_SYSTEM"
+password = "SYS"

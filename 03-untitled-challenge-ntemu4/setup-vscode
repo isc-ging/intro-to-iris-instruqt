@@ -1,0 +1,87 @@
+#!/bin/bash
+
+
+exec > /tmp/startup-challenge3.log 2>&1
+set -x
+set -euxo pipefail
+
+chown -R coder:coder /opt/intersystems
+
+su - coder <<EOSU
+
+
+cd /opt/intersystems/
+mkdir -p src/challenge-3
+cd src/challenge-3
+mkdir Intro
+mkdir .vscode
+
+cat <<EOF>> .vscode/settings.json 
+{
+    "workbench.colorTheme": "Default Dark+",
+    "intersystems.servers": {
+        "iris-52773": {
+            "webServer": {
+                "scheme": "http",
+                "host": "iris",
+                "port": 52773
+            },
+            "username": "SuperUser",
+            "password": "SYS"
+        }
+    },
+    "terminal.integrated.enableMultiLinePasteWarning": "never",
+    "chat.disableAIFeatures": true
+}
+EOF
+
+cat <<EOF>> .vscode/keybindings.json
+[
+    {
+        "key": "ctrl+alt+t",
+        "command": "vscode-objectscript.launchWebSocketTerminal"
+    }
+]
+EOF
+
+cat <<EOF>>/opt/intersystems/src/challenge-3/Intro/ProductChanges.cls
+Class Intro.ProductChanges Extends %RegisteredObject
+{
+
+/// Prints the details of a product in the database
+ClassMethod PrintProductDetails(pId As %String) As %Status
+{
+        // Open product by ID 
+        set product = ##class(HoleFoods.Product).%OpenId(pId)
+
+        // Write properties to terminal
+        write !,!
+        write "Product SKU: "_product.SKU, !
+        write "Product Name: "_product.Name, !
+        write "Product Category: "_product.Category,!
+        write "Product Price: "_product.Price ,! 
+        write !
+}
+
+/// Changes the current price of the product
+ClassMethod ChangeProductPrice(pId As %String, pPrice As %Numeric) As %Status [ Language = python ]
+{
+        import iris #Embedded Python IRIS module
+
+        # Open Product by ID
+        product = iris.HoleFoods.Product._OpenId(pId)
+
+        old_price = product.Price
+
+        print(f"Changing product price from {old_price} to {pPrice}")
+
+        # Set product price to new price
+        product.Price = pPrice
+        
+        # Save the product to database
+        out = product._Save()
+}
+
+}
+EOF
+EOSU
