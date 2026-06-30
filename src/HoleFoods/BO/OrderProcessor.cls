@@ -7,14 +7,19 @@ Method OnMessage(pRequest As HoleFoods.Msg.OrderRequest, Output pResponse As Ens
     set pResponse = ##class(Ens.StringResponse).%New()
 
     try {
-        set product = ##class(HoleFoods.Product).%OpenId(pRequest.SKU)
-        if '$isObject(product) {
-            set pResponse.StringValue = "Invalid SKU"
+        if pRequest.Quantity <= 0 {
+            set pResponse.StringValue = "ERROR:Invalid quantity"
             quit
         }
 
-        if product.Stock = 0 {
-            set pResponse.StringValue = "Out of stock"
+        set product = ##class(HoleFoods.Product).%OpenId(pRequest.SKU)
+        if '$isObject(product) {
+            set pResponse.StringValue = "ERROR:Product not found"
+            quit
+        }
+
+        if product.Stock < pRequest.Quantity {
+            set pResponse.StringValue = "ERROR:Out of stock"
             quit
         }
 
@@ -32,7 +37,7 @@ Method OnMessage(pRequest As HoleFoods.Msg.OrderRequest, Output pResponse As Ens
         set tSC = product.%Save()
         quit:$$$ISERR(tSC)
 
-        set pResponse.StringValue = "Order accepted"
+        set pResponse.StringValue = "OK:Order accepted"
 
     } catch ex {
         set tSC = ex.AsStatus()

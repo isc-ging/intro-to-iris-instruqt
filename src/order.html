@@ -4,11 +4,14 @@
   <meta charset="UTF-8">
   <title>HoleFoods Order</title>
   <style>
-    body { font-family: sans-serif; max-width: 400px; margin: 60px auto; }
-    label { display: block; margin-top: 12px; }
-    input { width: 100%; padding: 6px; margin-top: 4px; box-sizing: border-box; }
-    button { margin-top: 16px; padding: 8px 24px; }
-    #result { margin-top: 20px; font-weight: bold; }
+    body { font-family: sans-serif; max-width: 420px; margin: 60px auto; padding: 0 16px; }
+    h2 { margin-bottom: 24px; }
+    label { display: block; margin-top: 14px; font-weight: 500; }
+    input { width: 100%; padding: 8px; margin-top: 4px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+    input:disabled { background: #f5f5f5; color: #666; }
+    button { margin-top: 20px; padding: 10px 28px; font-size: 1rem; cursor: pointer; background: #2a7ae2; color: #fff; border: none; border-radius: 4px; }
+    button:hover { background: #1a5bb5; }
+    #error { margin-top: 16px; color: #c00; font-weight: bold; display: none; }
   </style>
 </head>
 <body>
@@ -18,28 +21,43 @@
       <input type="text" name="sku" value="SKU-976" required>
     </label>
     <label>Quantity
-      <input type="number" name="quantity" value="1" min="0" required>
+      <input type="number" name="quantity" value="1" min="1" required>
+    </label>
+    <label>Confirmation Email
+      <input type="email" name="email" value="customer@example.com" disabled>
     </label>
     <button type="submit">Submit Order</button>
   </form>
-  <div id="result"></div>
+  <div id="error"></div>
 
   <script>
     document.getElementById('orderForm').addEventListener('submit', async function(e) {
       e.preventDefault();
-      const sku = this.sku.value.trim();
-      const quantity = parseInt(this.quantity.value, 10);
-      const result = document.getElementById('result');
-      result.textContent = 'Sending...';
+      var errorDiv = document.getElementById('error');
+      errorDiv.style.display = 'none';
+
+      var sku = this.sku.value.trim();
+      var quantity = parseInt(this.quantity.value, 10);
+      var email = this.email.value.trim();
+
       try {
-        const resp = await fetch('/api/holeFoods/order', {
+        var resp = await fetch('/api/holeFoods/order', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ SKU: sku, Quantity: quantity })
+          body: JSON.stringify({ SKU: sku, Quantity: quantity, Email: email })
         });
-        result.textContent = await resp.text();
+        var data = await resp.json();
+
+        if (data.status === 'success') {
+          var page = data.emailSent ? 'thankyou.html' : 'thankyou-noemail.html';
+          window.location.href = '/csp/user/' + page + '?sku=' + encodeURIComponent(sku) + '&qty=' + quantity;
+        } else {
+          errorDiv.textContent = data.message || 'Order failed';
+          errorDiv.style.display = 'block';
+        }
       } catch (err) {
-        result.textContent = 'Error: ' + err.message;
+        errorDiv.textContent = 'Connection error: ' + err.message;
+        errorDiv.style.display = 'block';
       }
     });
   </script>

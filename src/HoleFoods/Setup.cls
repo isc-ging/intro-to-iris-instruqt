@@ -17,8 +17,8 @@ ClassMethod Run() As %Status
         set tSC = ..RegisterWebApp()
         quit:$$$ISERR(tSC)
 
-        write "Copying order page to /csp/user/...",!
-        set tSC = ..CopyOrderPage()
+        write "Copying web pages to /csp/user/...",!
+        set tSC = ..CopyWebPages()
         quit:$$$ISERR(tSC)
 
         write "Starting production...",!
@@ -37,11 +37,9 @@ ClassMethod AddStockColumn() As %Status
 {
     set tSC = $$$OK
     try {
-        // Reload the updated Product class (which includes the Stock property)
         set tSC = ##class(%SYSTEM.OBJ).Load("/tmp/src/HoleFoods/Product.cls", "cuk-d")
         quit:$$$ISERR(tSC)
 
-        // Populate Stock=100 for any existing rows that have no value yet
         &sql(UPDATE HoleFoods.Product SET Stock = 100 WHERE Stock IS NULL)
 
         write "Stock column added.",!
@@ -55,7 +53,6 @@ ClassMethod SeedOutOfStock() As %Status
 {
     set tSC = $$$OK
     try {
-        // Pick a product that is not SKU-976 and set its stock to 0
         set rs = ##class(%SQL.Statement).%ExecDirect(,
             "SELECT TOP 1 ID FROM HoleFoods.Product WHERE SKU <> 'SKU-976' AND Stock > 0 ORDER BY SKU")
         if rs.%Next() {
@@ -78,8 +75,6 @@ ClassMethod RegisterWebApp() As %Status
 {
     set tSC = $$$OK
     try {
-        // REST endpoint for the production service
-
         new $NAMESPACE
         set $NAMESPACE="%SYS"
 
@@ -105,15 +100,23 @@ ClassMethod RegisterWebApp() As %Status
     quit tSC
 }
 
-ClassMethod CopyOrderPage() As %Status
+ClassMethod CopyWebPages() As %Status
 {
     set tSC = $$$OK
     try {
-        set src = "/tmp/src/order.html"
-        set dest = "/usr/irissys/csp/user/order.html"
-        set tSC = ##class(%File).CopyFile(src, dest, 1, .copied)
+        set dest = "/usr/irissys/csp/user/"
+
+        set tSC = ##class(%File).CopyFile("/tmp/src/order.html", dest_"order.html", 1)
         quit:$$$ISERR(tSC)
-        write "Copied order.html to /csp/user/order.html",!
+        write "Copied order.html",!
+
+        set tSC = ##class(%File).CopyFile("/tmp/src/thankyou.html", dest_"thankyou.html", 1)
+        quit:$$$ISERR(tSC)
+        write "Copied thankyou.html",!
+
+        set tSC = ##class(%File).CopyFile("/tmp/src/thankyou-noemail.html", dest_"thankyou-noemail.html", 1)
+        quit:$$$ISERR(tSC)
+        write "Copied thankyou-noemail.html",!
     } catch ex {
         set tSC = ex.AsStatus()
     }
