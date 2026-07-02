@@ -31,7 +31,7 @@ enhanced_loading: null
 ---
 The most common type of databases is relational databases, these are tabular databases - think giant, interlinked spreadsheets. IRIS can be used as a standard relational database.
 
-> Copy this command into the text box in the middle of the page:
+**Copy this command into the text box in the middle of the page:**
 
 ```sql
 SELECT
@@ -39,13 +39,13 @@ ID, Category, Name, Price, SKU
 FROM HoleFoods.Product
 ```
 
-> Then click **Execute**.
+**Then click Execute**
 
 You'll see a table of products from our fictional retailer of foods with Holes in them.
 
 The *relational* part of the name, refers to the tables being related to each other. For example, our table of shop sales (HoleFood.Transactions), only details the product ID.
 
-> Now try running this command:
+**Now try running this command:**
 
 ```sql
 SELECT
@@ -55,7 +55,7 @@ FROM HoleFoods.SalesTransaction
 
 We can see the transaction details the Product ID sold. In IRIS it is very easy to find values from linked tables.
 
-> Lets re-run the above command with a small change to show the Product Name
+**Lets re-run the above command with a small change to show the Product Name**
 
 ```sql
 SELECT
@@ -66,7 +66,7 @@ This command uses `->` to implicitly join the Transactions and Products table to
 
 Before moving on from the Relational Table view, lets add one custom product to the dataset.
 
-> Execute the following command, and feel free to change the values if you can think of any other Hole-y foods, just don't change the SKU value, because we'll be coming back to this product later!
+**Execute the insert command to enter a new product item:**
 
 ```sql
 INSERT INTO HoleFoods.Product
@@ -75,7 +75,7 @@ VALUES
 ('Snack', 'Gummy Rings', 2.99, 'SKU-976')
 ```
 
-And just to double check its been added:
+**And just to double check its been added, run:**
 
 ```sql
 SELECT

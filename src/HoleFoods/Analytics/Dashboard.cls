@@ -32,11 +32,11 @@ XData Contents [ XMLNamespace = "http://www.intersystems.com/deepsee/library" ]
 </pivot>
 
 <dashboard xmlns="http://www.intersystems.com/deepsee/library" name="Sales Overview" folderName="HoleFoods Overview" title="HoleFoods Sales Overview" description="" keywords="" owner="" shared="true" public="true" locked="false" resource="" timeCreated="" createdBy="" category="" bookCover="" gridRows="10" gridCols="10" snapTo="true" snapGrid="true">
-  <widget type="barChart" subtype="bar" name="Revenue by Category" title="" dataSource="HoleFoods Overview/Revenue by Category.pivot" top="0" left="0" width="6" height="6">
+  <widget type="pivot" subtype="" name="Revenue by Category" title="" dataSource="HoleFoods Overview/Revenue by Category.pivot" top="0" left="0" width="6" height="6">
   </widget>
-  <widget type="scoreCard" subtype="" name="Total Units Sold" title="" dataSource="HoleFoods Overview/Revenue by Category.pivot" top="0" left="6" width="4" height="3">
+  <widget type="scoreCardWidget" subtype="" name="Total Units Sold" title="" dataSource="HoleFoods Overview/Revenue by Category.pivot" top="0" left="6" width="4" height="3">
   </widget>
-  <widget type="scoreCard" subtype="" name="Snacks Revenue" title="" mdx="SELECT [Measures].[Amount Sold] ON 0 FROM [HoleFoods] WHERE [Product].[P1].[Product Category].&amp;[Snacks]" top="3" left="6" width="4" height="3">
+  <widget type="scoreCardWidget" subtype="" name="Snacks Revenue" title="" mdx="SELECT [Measures].[Amount Sold] ON 0 FROM [HoleFoods] WHERE [Product].[P1].[Product Category].&amp;[Snacks]" top="3" left="6" width="4" height="3">
   </widget>
   <widget type="pivot" subtype="" name="Recent Transactions" title="" dataSource="HoleFoods Overview/Recent Sales.pivot" top="6" left="0" width="10" height="4">
   </widget>

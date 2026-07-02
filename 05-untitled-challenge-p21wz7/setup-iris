@@ -1,0 +1,16 @@
+#!/bin/bash
+
+set -euo pipefail
+
+iris session IRIS -U USER <<'EOSQL'
+do $system.OBJ.Load("/tmp/src/HoleFoods/Analytics/Dashboard.cls","cuk-d")
+do $system.OBJ.Load("/tmp/src/HoleFoods/Analytics/Setup.cls","cuk-d")
+EOSQL
+
+iris session IRIS -U USER <<'EOSQL'
+set sc = ##class(HoleFoods.Analytics.Setup).Run()
+if $$$ISERR(sc) { do $system.Status.DisplayError(sc) halt }
+halt
+EOSQL
+
+echo "Challenge 5 setup complete."

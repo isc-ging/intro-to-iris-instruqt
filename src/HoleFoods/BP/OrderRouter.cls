@@ -22,4 +22,9 @@ Method OnRequest(pRequest As HoleFoods.Msg.OrderRequest, Output pResponse As Ens
     quit tSC
 }
 
+Storage Default
+{
+<Type>%Storage.Persistent</Type>
+}
+
 }

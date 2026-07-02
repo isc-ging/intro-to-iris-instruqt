@@ -1,0 +1,18 @@
+{
+    "objectscript.conn": {
+        "server": "52773",
+        "ns": "USER",
+        "active": true
+    },
+    "intersystems.servers": {
+        "52773": {
+            "webServer": {
+                "scheme": "http",
+                "host": "localhost",
+                "port": 52773
+            },
+            "username": "_SYSTEM",
+            "password":"SYS"
+        }
+    }
+}
