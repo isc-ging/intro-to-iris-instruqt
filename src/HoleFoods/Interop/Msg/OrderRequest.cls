@@ -1,4 +1,4 @@
-Class HoleFoods.Msg.OrderRequest Extends Ens.Request
+Class HoleFoods.Interop.Msg.OrderRequest Extends Ens.Request
 {
 
 Property SKU As %String;

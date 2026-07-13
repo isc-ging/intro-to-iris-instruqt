@@ -1,4 +1,4 @@
-Class HoleFoods.BO.EmailOperation Extends Ens.BusinessOperation
+Class HoleFoods.Interop.BO.EmailOperation Extends Ens.BusinessOperation
 {
 
 Parameter ADAPTER = "EnsLib.EMail.OutboundAdapter";
@@ -18,7 +18,7 @@ Method OnInit() As %Status
     quit $$$OK
 }
 
-Method OnMessage(pRequest As HoleFoods.Msg.OrderRequest, Output pResponse As Ens.StringResponse) As %Status
+Method OnMessage(pRequest As HoleFoods.Interop.Msg.OrderRequest, Output pResponse As Ens.StringResponse) As %Status
 {
     set tSC = $$$OK
     set pResponse = ##class(Ens.StringResponse).%New()

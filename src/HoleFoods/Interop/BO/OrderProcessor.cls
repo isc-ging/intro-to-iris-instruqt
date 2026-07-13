@@ -1,7 +1,7 @@
-Class HoleFoods.BO.OrderProcessor Extends Ens.BusinessOperation
+Class HoleFoods.Interop.BO.OrderProcessor Extends Ens.BusinessOperation
 {
 
-Method OnMessage(pRequest As HoleFoods.Msg.OrderRequest, Output pResponse As Ens.StringResponse) As %Status
+Method OnMessage(pRequest As HoleFoods.Interop.Msg.OrderRequest, Output pResponse As Ens.StringResponse) As %Status
 {
     set tSC = $$$OK
     set pResponse = ##class(Ens.StringResponse).%New()
@@ -25,11 +25,9 @@ Method OnMessage(pRequest As HoleFoods.Msg.OrderRequest, Output pResponse As Ens
 
         set tx = ##class(HoleFoods.Transaction).%New()
         set tx.Product = product
-        set tx.Actual = 1
         set tx.DateOfSale = +$horolog
         set tx.UnitsSold = pRequest.Quantity
         set tx.AmountOfSale = product.Price * pRequest.Quantity
-        set tx.Channel = 2
         set tSC = tx.%Save()
         quit:$$$ISERR(tSC)
 

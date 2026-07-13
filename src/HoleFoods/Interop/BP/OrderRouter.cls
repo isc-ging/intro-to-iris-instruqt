@@ -1,7 +1,7 @@
-Class HoleFoods.BP.OrderRouter Extends Ens.BusinessProcess
+Class HoleFoods.Interop.BP.OrderRouter Extends Ens.BusinessProcess
 {
 
-Method OnRequest(pRequest As HoleFoods.Msg.OrderRequest, Output pResponse As Ens.StringResponse) As %Status
+Method OnRequest(pRequest As HoleFoods.Interop.Msg.OrderRequest, Output pResponse As Ens.StringResponse) As %Status
 {
     set tSC = $$$OK
 

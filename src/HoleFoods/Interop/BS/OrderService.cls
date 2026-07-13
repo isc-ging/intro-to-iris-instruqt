@@ -1,4 +1,4 @@
-Class HoleFoods.BS.OrderService Extends Ens.BusinessService
+Class HoleFoods.Interop.BS.OrderService Extends Ens.BusinessService
 {
 
 Method OnProcessInput(pInput As Ens.StringRequest, Output pOutput As Ens.StringResponse) As %Status
@@ -6,7 +6,7 @@ Method OnProcessInput(pInput As Ens.StringRequest, Output pOutput As Ens.StringR
     set tSC = $$$OK
     try {
         set body = ##class(%DynamicObject).%FromJSON(pInput.StringValue)
-        set msg = ##class(HoleFoods.Msg.OrderRequest).%New()
+        set msg = ##class(HoleFoods.Interop.Msg.OrderRequest).%New()
         set msg.SKU = body.SKU
         set msg.Quantity = body.Quantity
         set msg.Email = body.Email

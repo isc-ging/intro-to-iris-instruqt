@@ -1,4 +1,4 @@
-Class HoleFoods.Setup Extends %RegisteredObject
+Class HoleFoods.Interop.Setup Extends %RegisteredObject
 {
 
 ClassMethod Run() As %Status
@@ -80,7 +80,7 @@ ClassMethod RegisterWebApp() As %Status
 
         set appName = "/api/holeFoods"
         set props("AutheEnabled") = 64
-        set props("DispatchClass") = "HoleFoods.REST.OrderDispatch"
+        set props("DispatchClass") = "HoleFoods.Interop.REST.OrderDispatch"
         set props("MatchRoles") = ":%All"
         set props("NameSpace") = "USER"
         set props("Recurse") = 1
@@ -128,7 +128,7 @@ ClassMethod StartProduction() As %Status
     set tSC = $$$OK
     try {
         set currentProd = ##class(Ens.Director).GetActiveProductionName()
-        if currentProd = "HoleFoods.Production" {
+        if currentProd = "HoleFoods.Interop.Production" {
             write "Production already running.",!
             quit
         }
@@ -137,7 +137,7 @@ ClassMethod StartProduction() As %Status
             set tSC = ##class(Ens.Director).StopProduction(10, 1)
             quit:$$$ISERR(tSC)
         }
-        set tSC = ##class(Ens.Director).StartProduction("HoleFoods.Production")
+        set tSC = ##class(Ens.Director).StartProduction("HoleFoods.Interop.Production")
         quit:$$$ISERR(tSC)
         write "Production started.",!
     } catch ex {

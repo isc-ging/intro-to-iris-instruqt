@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Export generator="IRIS" version="26" zv="IRIS for UNIX (Ubuntu Server LTS for x86-64 Containers) 2026.1 (Build 234U)" ts="2026-06-29 15:57:25">
-<Class name="HoleFoods.BO.EmailOperation">
+<Class name="HoleFoods.Interop.BO.EmailOperation">
 <Super>Ens.BusinessOperation</Super>
 <TimeChanged>67746,68074.64173487</TimeChanged>
 <TimeCreated>67746,61048.095808645</TimeCreated>
@@ -34,7 +34,7 @@
 </Method>
 
 <Method name="OnMessage">
-<FormalSpec>pRequest:HoleFoods.Msg.OrderRequest,*pResponse:Ens.StringResponse</FormalSpec>
+<FormalSpec>pRequest:HoleFoods.Interop.Msg.OrderRequest,*pResponse:Ens.StringResponse</FormalSpec>
 <ReturnType>%Status</ReturnType>
 <Implementation><![CDATA[
     set tSC = $$$OK
@@ -68,13 +68,13 @@
 </Class>
 
 
-<Class name="HoleFoods.BO.OrderProcessor">
+<Class name="HoleFoods.Interop.BO.OrderProcessor">
 <Super>Ens.BusinessOperation</Super>
 <TimeChanged>67746,61048.117158778</TimeChanged>
 <TimeCreated>67743,55813.799220243</TimeCreated>
 
 <Method name="OnMessage">
-<FormalSpec>pRequest:HoleFoods.Msg.OrderRequest,*pResponse:Ens.StringResponse</FormalSpec>
+<FormalSpec>pRequest:HoleFoods.Interop.Msg.OrderRequest,*pResponse:Ens.StringResponse</FormalSpec>
 <ReturnType>%Status</ReturnType>
 <Implementation><![CDATA[
     set tSC = $$$OK
@@ -123,13 +123,13 @@
 </Class>
 
 
-<Class name="HoleFoods.BP.OrderRouter">
+<Class name="HoleFoods.Interop.BP.OrderRouter">
 <Super>Ens.BusinessProcess</Super>
 <TimeChanged>67746,68074.826381629</TimeChanged>
 <TimeCreated>67744,36067.498131471</TimeCreated>
 
 <Method name="OnRequest">
-<FormalSpec>pRequest:HoleFoods.Msg.OrderRequest,*pResponse:Ens.StringResponse</FormalSpec>
+<FormalSpec>pRequest:HoleFoods.Interop.Msg.OrderRequest,*pResponse:Ens.StringResponse</FormalSpec>
 <ReturnType>%Status</ReturnType>
 <Implementation><![CDATA[
     set tSC = $$$OK
@@ -158,7 +158,7 @@
 </Class>
 
 
-<Class name="HoleFoods.BS.OrderService">
+<Class name="HoleFoods.Interop.BS.OrderService">
 <Super>Ens.BusinessService</Super>
 <TimeChanged>67746,61048.187272435</TimeChanged>
 <TimeCreated>67743,55813.869092199</TimeCreated>
@@ -170,7 +170,7 @@
     set tSC = $$$OK
     try {
         set body = ##class(%DynamicObject).%FromJSON(pInput.StringValue)
-        set msg = ##class(HoleFoods.Msg.OrderRequest).%New()
+        set msg = ##class(HoleFoods.Interop.Msg.OrderRequest).%New()
         set msg.SKU = body.SKU
         set msg.Quantity = body.Quantity
         set msg.Email = body.Email
@@ -246,126 +246,25 @@
 </Data>
 </Storage>
 </Class>
-<TableStatsInfo name="HoleFoods.Product.ext">
-  <EndTime>2026-06-22T15:03:39.542262Z</EndTime>
-  <Duration>.029081</Duration>
-  <UserName>irisowner</UserName>
-  <SamplePercent>1</SamplePercent>
-  <ExtentSize>17</ExtentSize>
-  <Fields>
-    <FieldStatsInfo>
-      <Name>Category</Name>
-      <Selectivity>12.5000%</Selectivity>
-      <AverageFieldSize>7.65</AverageFieldSize>
-      <Histogram>$lb(.06666666666666666667,0,0,$lb(" CANDY"," CEREAL"," FRUIT"," FRUIT"," PASTA"," PASTA"," PASTA"," SEAFOOD"," SNACK"," SNACK"," SNACK"," SNACK"," SNACK"," SNACK"," VEGETABLE"," VEGETABLE"),$lb(2,1,7,1,7,7,1,2,7,7,7,7,7,1,11),$lb(541278542,1095648345,1163019585,1128616517,1179800905,0,0,1179800905,1346458452,0,0,0,0,1346458452,1397047622,1161905743,1312899915,0,0,0,0,0,0,0,0,0,0,1397637443,1447380805,0,0,542524743))</Histogram>
-      <HasOutlier>false</HasOutlier>
-    </FieldStatsInfo>
-    <FieldStatsInfo>
-      <Name>ID</Name>
-      <Selectivity>1</Selectivity>
-      <AverageFieldSize>9</AverageFieldSize>
-      <Histogram>$lb(.06666666666666666667,0,0,$lb("SKU-101","SKU-192","SKU-199","SKU-203","SKU-204","SKU-222","SKU-223","SKU-287","SKU-296","SKU-451","SKU-601","SKU-708","SKU-709","SKU-712","SKU-900","SKU-928"),$lb(5,6,4,6,5,6,5,5,4,4,4,6,5,4,5),$lb(1397445933,808517632,959578112,838860800,956301312,825833728,842019584,855638016,872415232,808714240,842137600,838860800,855638016,842203136,943128576,943128576,959840256,842610176,875901184,875901184,909127936,909127936,925906944,939524096,956301312,809041920,825360384,925970944,959459328,808452096,842530816,1397445933))</Histogram>
-      <HasOutlier>false</HasOutlier>
-    </FieldStatsInfo>
-    <FieldStatsInfo>
-      <Name>Name</Name>
-      <Selectivity>6.2500%</Selectivity>
-      <AverageFieldSize>17.71</AverageFieldSize>
-      <Histogram>$lb(.06666666666666666667,0,0,$lb(" BAGELS (DOZEN)"," BUNDT CAKE"," CHEERIOS (BOX)"," DONUTS (DOZEN)"," FREE-RANGE DONUTS (DOZEN)"," FRUIT LOOPS (BOX)"," LIFESAVERS (ROLL)"," ONION RING"," ONION RING"," PENNE (BOX)"," PINEAPPLE RINGS (CAN)"," PRETZELS (BAG)"," SWISS CHEESE (SLICED)"," TORTELLINI (FROZEN)"," UNSALTED PRETZELS (BAG)"," ZITI (BOX)"),$lb(2,1,1,1,3,1,1,12,1,2,2,1,1,1,1),$lb(541212999,1095189836,1431192660,1112886852,1128809797,1128809797,1146048085,1146048085,1179796805,1162161490,1430869024,1179800905,1279870533,1279870533,1330530639,0,0,1330530639,1346719310,1162759749,1229866305,1229866305,1380275290,1347568980,1398229331,1398229331,1414484564,1414484564,1431196481,1431196481,1514755145,542787924))</Histogram>
-      <HasOutlier>false</HasOutlier>
-    </FieldStatsInfo>
-    <FieldStatsInfo>
-      <Name>Price</Name>
-      <Selectivity>8.3333%</Selectivity>
-      <AverageFieldSize>4.82</AverageFieldSize>
-      <Histogram>$lb(.06666666666666666667,1,0,$lb(1.15,1.95,2.95,2.95,3.95,3.95,4.25,4.95,4.95,5.95,5.95,6.95,8.95,12.95,19.95,22.95),$lb(2,0,4,0,4,0,2,4,0,4,0,0,0,1,0),"")</Histogram>
-      <HasOutlier>false</HasOutlier>
-    </FieldStatsInfo>
-    <FieldStatsInfo>
-      <Name>SKU</Name>
-      <Selectivity>1</Selectivity>
-      <AverageFieldSize>9</AverageFieldSize>
-      <Histogram>$lb(.06666666666666666667,0,0,$lb("SKU-101","SKU-192","SKU-199","SKU-203","SKU-204","SKU-222","SKU-223","SKU-287","SKU-296","SKU-451","SKU-601","SKU-708","SKU-709","SKU-712","SKU-900","SKU-928"),$lb(5,6,4,6,5,6,5,5,4,4,4,6,5,4,5),$lb(1397445933,808517632,959578112,838860800,956301312,825833728,842019584,855638016,872415232,808714240,842137600,838860800,855638016,842203136,943128576,943128576,959840256,842610176,875901184,875901184,909127936,909127936,925906944,939524096,956301312,809041920,825360384,925970944,959459328,808452096,842530816,1397445933))</Histogram>
-      <HasOutlier>false</HasOutlier>
-    </FieldStatsInfo>
-    <FieldStatsInfo>
-      <Name>x__classname</Name>
-      <Selectivity>0.0001%</Selectivity>
-      <OutlierValue>""</OutlierValue>
-      <OutlierSelectivity>.999999</OutlierSelectivity>
-      <AverageFieldSize>2</AverageFieldSize>
-      <Histogram>$lb(.06666666666666666667,0,16,$lb("-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000"),$lb(21,21,21,21,21,21,21,21,21,21,21,21,21,21,21),$lb(758198320,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,758198320))</Histogram>
-      <HasOutlier>true</HasOutlier>
-    </FieldStatsInfo>
-  </Fields>
-  <Maps>
-    <MapStatsInfo>
-      <Name>KEY</Name>
-      <BlockCount>4</BlockCount>
-    </MapStatsInfo>
-  </Maps>
-  <StorageInfo>
-    <StorageInfo>
-      <Type>Default Storage</Type>
-      <Name>Default Storage</Name>
-      <Info>1,</Info>
-    </StorageInfo>
-    <StorageInfo>
-      <Type>Field</Type>
-      <Name>Category</Name>
-      <Info>%Library.String,SU</Info>
-    </StorageInfo>
-    <StorageInfo>
-      <Type>Field</Type>
-      <Name>ID</Name>
-      <Info>%Library.String,</Info>
-    </StorageInfo>
-    <StorageInfo>
-      <Type>Field</Type>
-      <Name>Name</Name>
-      <Info>%Library.String,SU</Info>
-    </StorageInfo>
-    <StorageInfo>
-      <Type>Field</Type>
-      <Name>Price</Name>
-      <Info>%Library.Numeric,</Info>
-    </StorageInfo>
-    <StorageInfo>
-      <Type>Field</Type>
-      <Name>SKU</Name>
-      <Info>%Library.String,E</Info>
-    </StorageInfo>
-    <StorageInfo>
-      <Type>Field</Type>
-      <Name>x__classname</Name>
-      <Info>%Library.RawString,</Info>
-    </StorageInfo>
-    <StorageInfo>
-      <Type>Map</Type>
-      <Name>KEY</Name>
-      <Info>^HoleFoods.ProductD,I</Info>
-    </StorageInfo>
-  </StorageInfo>
-</TableStatsInfo>
 
 
-<Class name="HoleFoods.Production">
+<Class name="HoleFoods.Interop.Production">
 <Super>Ens.Production</Super>
 <TimeChanged>67750,57437.761112697</TimeChanged>
 <TimeCreated>67743,55534.294893656</TimeCreated>
 
 <XData name="ProductionDefinition">
 <Data><![CDATA[
-<Production Name="HoleFoods.Production" LogGeneralTraceEvents="false">
+<Production Name="HoleFoods.Interop.Production" LogGeneralTraceEvents="false">
   <Description>Order processing with email confirmation</Description>
   <ActorPoolSize>2</ActorPoolSize>
-  <Item Name="OrderService" Category="" ClassName="HoleFoods.BS.OrderService" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
+  <Item Name="OrderService" Category="" ClassName="HoleFoods.Interop.BS.OrderService" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
   </Item>
-  <Item Name="Router" Category="" ClassName="HoleFoods.BP.OrderRouter" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
+  <Item Name="Router" Category="" ClassName="HoleFoods.Interop.BP.OrderRouter" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
   </Item>
-  <Item Name="OrderProcessor" Category="" ClassName="HoleFoods.BO.OrderProcessor" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
+  <Item Name="OrderProcessor" Category="" ClassName="HoleFoods.Interop.BO.OrderProcessor" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
   </Item>
-  <Item Name="EmailOperation" Category="" ClassName="HoleFoods.BO.EmailOperation" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+  <Item Name="EmailOperation" Category="" ClassName="HoleFoods.Interop.BO.EmailOperation" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
     <Setting Target="Adapter" Name="SMTPServer">mailpit</Setting>
     <Setting Target="Adapter" Name="SMTPPort">1025</Setting>
   </Item>
@@ -375,7 +274,7 @@
 </Class>
 
 
-<Class name="HoleFoods.REST.OrderDispatch">
+<Class name="HoleFoods.Interop.REST.OrderDispatch">
 <Super>%CSP.REST</Super>
 <TimeChanged>67746,63351.279144498</TimeChanged>
 <TimeCreated>67744,29935.747673011</TimeCreated>
@@ -434,7 +333,7 @@
 </Class>
 
 
-<Class name="HoleFoods.Setup">
+<Class name="HoleFoods.Interop.Setup">
 <Super>%RegisteredObject</Super>
 <TimeChanged>67746,64755.555254639</TimeChanged>
 <TimeCreated>67743,55534.312125284</TimeCreated>
@@ -529,7 +428,7 @@
 
         set appName = "/api/holeFoods"
         set props("AutheEnabled") = 64
-        set props("DispatchClass") = "HoleFoods.REST.OrderDispatch"
+        set props("DispatchClass") = "HoleFoods.Interop.REST.OrderDispatch"
         set props("MatchRoles") = ":%All"
         set props("NameSpace") = "USER"
         set props("Recurse") = 1
@@ -583,7 +482,7 @@
     set tSC = $$$OK
     try {
         set currentProd = ##class(Ens.Director).GetActiveProductionName()
-        if currentProd = "HoleFoods.Production" {
+        if currentProd = "HoleFoods.Interop.Production" {
             write "Production already running.",!
             quit
         }
@@ -592,7 +491,7 @@
             set tSC = ##class(Ens.Director).StopProduction(10, 1)
             quit:$$$ISERR(tSC)
         }
-        set tSC = ##class(Ens.Director).StartProduction("HoleFoods.Production")
+        set tSC = ##class(Ens.Director).StartProduction("HoleFoods.Interop.Production")
         quit:$$$ISERR(tSC)
         write "Production started.",!
     } catch ex {

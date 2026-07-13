@@ -1,4 +1,4 @@
-Class HoleFoods.REST.OrderDispatch Extends %CSP.REST
+Class HoleFoods.Interop.REST.OrderDispatch Extends %CSP.REST
 {
 
 XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
