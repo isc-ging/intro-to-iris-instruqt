@@ -8,17 +8,20 @@ notes:
   contents: |-
     We've come to the end of your whistle-stop tour to IRIS, well done for getting through it, we hope that it has given you a better idea of the wonders of IRIS.
 
+    As we have seen in this tutorial, IRIS can really do it all. Data can travel from an IRIS-hosted webpage, to an IRIS interoperability production, to an analytics dashboard. And thats not all, there are plenty of advanced features like AI and Machine learning solutions, native support for columnar, document, key-value and vector database, and extreme database scalability. 
+
+    IRIS is a data platform build for the worlds most important applications.
+
+notes:
+- type: text
+  contents: |-    
     IRIS is at the core of other InterSystems products, including:
     - **IRIS for Health** (IRIS with added healthcare modules)
     - **InterSystems Data Studio** - the low code data integration system
     - **HealthShare** and **HealthConnect** product Families - solutions for connecting  healthcare systems.
     - **TrakCare** - InterSystems' electronic healthcare record, holding hospital data around the world
 
-    There are many advanced features that we did not include for interest of brevity, like:
-    - AI and Machine learning solutions
-    - Hosting and deploying web applications
-    - Database scalability and sharding
-    - Native support for columnar, document, key-value and vector databases
+
 tabs:
 - id: cpq1vsmv5nf8
   title: IRIS
@@ -35,6 +38,9 @@ tabs:
 difficulty: ""
 enhanced_loading: null
 ---
+
+
+
 Join us at the [Developer Community](https://community.intersystems.com/) to learn more
 
 Feel free to play around with sandbox, or check out some of our other tutorials:

@@ -7,7 +7,7 @@ XData KPI [ XMLNamespace = "http://www.intersystems.com/deepsee/kpi" ]
   name="HoleFoods/SalesKPI"
   sourceType="sql"
   caption="HoleFoods Sales KPIs"
-  sql="SELECT SUM(AmountOfSale), SUM(UnitsSold), COUNT(*) FROM HoleFoods.SalesTransaction WHERE DateOfSale >= (CURRENT_DATE - 7)"
+  sql="SELECT SUM(AmountOfSale), SUM(UnitsSold), COUNT(*) FROM HoleFoods.SalesTransaction WHERE DateTimeOfSale >= (CURRENT_DATE - 7)"
 >
 <property name="RecentRevenue" columnNo="1" />
 <property name="RecentUnits"   columnNo="2" />

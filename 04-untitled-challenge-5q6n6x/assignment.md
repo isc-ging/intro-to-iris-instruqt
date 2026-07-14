@@ -36,7 +36,7 @@ This production is just getting started. The next thing we are going to do is to
 
 **Press the `+` button next to Business Operations** to add a new component. The new component form should be pre-filled, so you can press ok and see our new component appear in the production. 
 
-**Return to the Shop Page and Submit another order.**
+**Return to the Shop Page and submit another order.**
 
 **This time, open the [Mail tab](tab-3) and take a look at the inbox.** You should see a new email with an order confirmation. 
 

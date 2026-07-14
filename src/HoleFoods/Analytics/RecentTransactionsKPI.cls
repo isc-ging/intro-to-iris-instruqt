@@ -8,11 +8,11 @@ Class HoleFoods.Analytics.RecentTransactionsKPI Extends %DeepSee.KPI
   caption="Recent Transactions"
   sql="
 SELECT TOP 100
-%ODBCOUT(DATE(DateOfSale)), Product, Product->Name As ProductName, UnitsSold, AmountOfSale
+%ODBCOUT(DATE(DateTimeOfSale)), Product, Product->Name As ProductName, UnitsSold, AmountOfSale
 FROM HoleFoods.SalesTransaction
-ORDER BY DateOfSale DESC"
+ORDER BY DateTimeOfSale DESC"
 >
-<property name="DateOfSale" columnNo="1" />
+
 <property name="ProductID"   columnNo="2" />
 <property name="ProductName"   columnNo="3" />
 <property name="UnitsSold"   columnNo="4" />

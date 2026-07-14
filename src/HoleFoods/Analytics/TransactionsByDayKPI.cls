@@ -8,15 +8,15 @@ Class HoleFoods.Analytics.TransactionsByDayKPI Extends %DeepSee.KPI
   caption="Transactions By Day"
   sql="
 SELECT
-    %ODBCOUT(DATE(DATE_TRUNC('week', DateOfSale))) AS WeekStarting,
+    %ODBCOUT(DATE(DATE_TRUNC('week', DateTimeOfSale))) AS WeekStarting,
     SUM(AmountOfSale) AS TotalRevenue
 FROM HoleFoods.SalesTransaction
-WHERE DateOfSale >= TO_DATE(
+WHERE DateTimeOfSale >= TO_DATE(
     CONCAT(CAST(YEAR(CURRENT_DATE) AS VARCHAR(4)), '-01-01'),
     'YYYY-MM-DD'
 )
-GROUP BY DATE_TRUNC('week', DateOfSale)
-ORDER BY DATE_TRUNC('week', DateOfSale)
+GROUP BY DATE_TRUNC('week', DateTimeOfSale)
+ORDER BY DATE_TRUNC('week', DateTimeOfSale)
 "
 >
 

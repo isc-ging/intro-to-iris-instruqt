@@ -25,7 +25,7 @@ Method OnMessage(pRequest As HoleFoods.Interop.Msg.OrderRequest, Output pRespons
 
         set tx = ##class(HoleFoods.Transaction).%New()
         set tx.Product = product
-        set tx.DateOfSale = +$horolog
+        set tx.DateTimeOfSale = $ZDT($H, 3)
         set tx.UnitsSold = pRequest.Quantity
         set tx.AmountOfSale = product.Price * pRequest.Quantity
         set tSC = tx.%Save()
