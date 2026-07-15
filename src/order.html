@@ -2,71 +2,341 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>HoleFoods Order</title>
+  <title>HoleFoods - Place an Order</title>
   <style>
-    body { font-family: sans-serif; max-width: 420px; margin: 60px auto; padding: 0 16px; }
-    h2 { margin-bottom: 24px; }
-    label { display: block; margin-top: 14px; font-weight: 500; }
-    input, select { width: 100%; padding: 8px; margin-top: 4px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem; }
-    input:disabled { background: #f5f5f5; color: #666; }
-    button { margin-top: 20px; padding: 10px 28px; font-size: 1rem; cursor: pointer; background: #2a7ae2; color: #fff; border: none; border-radius: 4px; }
-    button:hover { background: #1a5bb5; }
-    button:disabled { background: #aaa; cursor: not-allowed; }
-    #error { margin-top: 16px; color: #c00; font-weight: bold; display: none; }
-    .price-hint { font-size: 0.85rem; color: #555; margin-top: 2px; }
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f0f2f5;
+      margin: 0;
+      padding: 32px 16px;
+      color: #222;
+    }
+
+    .page-header {
+      max-width: 520px;
+      margin: 0 auto 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      width: 44px;
+      height: 44px;
+      background: #2e7d32;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      color: #fff;
+      font-weight: 900;
+      letter-spacing: -1px;
+    }
+
+    .brand-name {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #2e7d32;
+    }
+
+    .brand-tagline {
+      font-size: 0.78rem;
+      color: #777;
+      margin-top: 1px;
+    }
+
+    .card {
+      max-width: 520px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+
+    .card-header {
+      background: #2e7d32;
+      color: #fff;
+      padding: 18px 24px;
+    }
+
+    .card-header h2 {
+      margin: 0;
+      font-size: 1.15rem;
+      font-weight: 600;
+    }
+
+    .card-header p {
+      margin: 4px 0 0;
+      font-size: 0.83rem;
+      opacity: 0.85;
+    }
+
+    .card-body {
+      padding: 24px;
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #888;
+      margin: 0 0 12px;
+    }
+
+    .field-group {
+      margin-bottom: 20px;
+    }
+
+    label.field-label {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #444;
+      margin-bottom: 5px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid #d0d5dd;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      color: #222;
+      background: #fff;
+      transition: border-color 0.15s;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: #2e7d32;
+      box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.12);
+    }
+
+    input:disabled {
+      background: #f5f5f5;
+      color: #888;
+      cursor: not-allowed;
+    }
+
+    .field-hint {
+      font-size: 0.8rem;
+      color: #888;
+      margin-top: 4px;
+    }
+
+    .field-hint.price {
+      color: #2a7ae2;
+      font-weight: 600;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid #eee;
+      margin: 20px 0;
+    }
+
+    .summary-box {
+      background: #fafafa;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.88rem;
+      color: #555;
+      margin-bottom: 6px;
+    }
+
+    .summary-row:last-child {
+      margin-bottom: 0;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #222;
+      border-top: 1px solid #ddd;
+      padding-top: 8px;
+      margin-top: 4px;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: #2e7d32;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      transition: background 0.15s;
+    }
+
+    .btn-submit:hover:not(:disabled) { background: #1b5e20; }
+    .btn-submit:disabled { background: #bbb; cursor: not-allowed; }
+
+    .result-box {
+      margin-top: 20px;
+      padding: 14px 16px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      display: none;
+    }
+
+    .result-box.success {
+      background: #ecfdf5;
+      border: 1px solid #6ee7b7;
+      color: #065f46;
+    }
+
+    .result-box.error {
+      background: #fff1f0;
+      border: 1px solid #fca5a5;
+      color: #991b1b;
+    }
+
+    .result-box .result-title {
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
   </style>
 </head>
 <body>
-  <h2>Place an Order</h2>
-  <form id="orderForm">
-    <label>Product
-      <select name="sku" required>
-        <option value="">Loading products...</option>
-      </select>
-    </label>
-    <p id="priceHint" class="price-hint"></p>
-    <label>Quantity
-      <input type="number" name="quantity" value="1" min="1" required>
-    </label>
-    <label>City
-      <select name="city" required>
-        <option value="">Loading cities...</option>
-      </select>
-    </label>
-    <label>Confirmation Email
-      <input type="email" name="email" value="customer@example.com" disabled>
-    </label>
-    <button type="submit" id="submitBtn" disabled>Submit Order</button>
-  </form>
-  <div id="error"></div>
+
+  <div class="page-header">
+    <div class="brand">
+      <div class="brand-logo">HF</div>
+      <div>
+        <div class="brand-name">HoleFoods</div>
+        <div class="brand-tagline">Fresh ingredients, delivered daily</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h2>Place an Order</h2>
+      <p>Select a product and delivery location below</p>
+    </div>
+    <div class="card-body">
+      <form id="orderForm" autocomplete="off">
+
+        <p class="section-label">Product</p>
+
+        <div class="field-group">
+          <label class="field-label" for="sku">Item</label>
+          <select id="sku" name="sku" required>
+            <option value="">Loading products...</option>
+          </select>
+          <div id="priceHint" class="field-hint price"></div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="quantity">Quantity</label>
+          <input id="quantity" type="number" name="quantity" value="1" min="1" max="999" required>
+          <div class="field-hint">Max 999 units per order</div>
+        </div>
+
+        <hr class="divider">
+        <p class="section-label">Delivery</p>
+
+        <div class="field-group">
+          <label class="field-label" for="city">Delivery Location</label>
+          <select id="city" name="city" required>
+            <option value="">Loading locations...</option>
+          </select>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="email">Confirmation Email</label>
+          <input id="email" type="email" name="email" value="customer@example.com" disabled>
+          <div class="field-hint">Receipt sent automatically on confirmation</div>
+        </div>
+
+        <hr class="divider">
+        <p class="section-label">Order Summary</p>
+
+        <div class="summary-box" id="summaryBox">
+          <div class="summary-row">
+            <span id="summaryProduct">-</span>
+            <span id="summaryUnitPrice">-</span>
+          </div>
+          <div class="summary-row">
+            <span>Quantity</span>
+            <span id="summaryQty">1</span>
+          </div>
+          <div class="summary-row">
+            <span>Order Total</span>
+            <span id="summaryTotal">-</span>
+          </div>
+        </div>
+
+        <button type="submit" id="submitBtn" class="btn-submit" disabled>Place Order</button>
+
+        <div id="resultBox" class="result-box">
+          <div class="result-title" id="resultTitle"></div>
+          <div id="resultMessage"></div>
+        </div>
+
+      </form>
+    </div>
+  </div>
 
   <script>
     var productPrices = {};
+    var productNames = {};
+
+    function updateSummary() {
+      var sku = document.getElementById('sku').value;
+      var qty = parseInt(document.getElementById('quantity').value, 10) || 0;
+      var price = parseFloat(productPrices[sku]) || 0;
+      var name = productNames[sku] || '-';
+
+      document.getElementById('priceHint').textContent =
+        sku && price ? '$' + price.toFixed(2) + ' per unit' : '';
+
+      document.getElementById('summaryProduct').textContent = sku ? name : '-';
+      document.getElementById('summaryUnitPrice').textContent =
+        price ? '$' + price.toFixed(2) : '-';
+      document.getElementById('summaryQty').textContent = qty > 0 ? qty : '-';
+      document.getElementById('summaryTotal').textContent =
+        price && qty > 0 ? '$' + (price * qty).toFixed(2) : '-';
+    }
 
     async function loadDropdowns() {
-      var submitBtn = document.getElementById('submitBtn');
       try {
         var [productsResp, outletsResp] = await Promise.all([
           fetch('/api/holeFoods/products'),
           fetch('/api/holeFoods/outlets')
         ]);
         var products = await productsResp.json();
-        var outlets = await outletsResp.json();
+        var outlets  = await outletsResp.json();
 
-        var skuSel = document.querySelector('[name=sku]');
+        var skuSel = document.getElementById('sku');
         skuSel.innerHTML = '<option value="">-- Select a product --</option>';
         products.forEach(function(p) {
           productPrices[p.sku] = p.price;
+          productNames[p.sku]  = p.name;
           var opt = document.createElement('option');
           opt.value = p.sku;
-          opt.textContent = p.name + ' (' + p.sku + ')';
+          opt.textContent = p.name;
           if (p.sku === 'SKU-976') opt.selected = true;
           skuSel.appendChild(opt);
         });
-        updatePriceHint();
 
-        var citySel = document.querySelector('[name=city]');
-        citySel.innerHTML = '<option value="">-- Select a city --</option>';
+        var citySel = document.getElementById('city');
+        citySel.innerHTML = '<option value="">-- Select a location --</option>';
         outlets.forEach(function(o) {
           var opt = document.createElement('option');
           opt.value = o.city;
@@ -74,30 +344,34 @@
           citySel.appendChild(opt);
         });
 
-        submitBtn.disabled = false;
+        updateSummary();
+        document.getElementById('submitBtn').disabled = false;
       } catch (err) {
-        document.getElementById('error').textContent = 'Failed to load form data: ' + err.message;
-        document.getElementById('error').style.display = 'block';
+        showResult('error', 'Load error', 'Failed to load form data: ' + err.message);
       }
     }
 
-    function updatePriceHint() {
-      var sku = document.querySelector('[name=sku]').value;
-      var hint = document.getElementById('priceHint');
-      hint.textContent = sku && productPrices[sku] ? 'Price: $' + parseFloat(productPrices[sku]).toFixed(2) + ' each' : '';
+    function showResult(type, title, message) {
+      var box = document.getElementById('resultBox');
+      box.className = 'result-box ' + type;
+      box.style.display = 'block';
+      document.getElementById('resultTitle').textContent = title;
+      document.getElementById('resultMessage').textContent = message;
     }
 
-    document.querySelector('[name=sku]').addEventListener('change', updatePriceHint);
+    document.getElementById('sku').addEventListener('change', updateSummary);
+    document.getElementById('quantity').addEventListener('input', updateSummary);
 
     document.getElementById('orderForm').addEventListener('submit', async function(e) {
       e.preventDefault();
-      var errorDiv = document.getElementById('error');
-      errorDiv.style.display = 'none';
+      var btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.textContent = 'Placing order...';
 
-      var sku = this.sku.value.trim();
+      var sku      = this.sku.value.trim();
       var quantity = parseInt(this.quantity.value, 10);
-      var email = this.email.value.trim();
-      var city = this.city.value;
+      var email    = this.email.value.trim();
+      var city     = this.city.value;
 
       try {
         var resp = await fetch('/api/holeFoods/order', {
@@ -111,13 +385,14 @@
           var page = data.emailSent ? 'thankyou.html' : 'thankyou-noemail.html';
           window.location.href = '/csp/user/' + page + '?sku=' + encodeURIComponent(sku) + '&qty=' + quantity;
         } else {
-          errorDiv.textContent = data.message || 'Order failed';
-          errorDiv.style.display = 'block';
+          showResult('error', 'Order failed', data.message || 'An unexpected error occurred.');
         }
       } catch (err) {
-        errorDiv.textContent = 'Connection error: ' + err.message;
-        errorDiv.style.display = 'block';
+        showResult('error', 'Connection error', err.message);
       }
+
+      btn.disabled = false;
+      btn.textContent = 'Place Order';
     });
 
     loadDropdowns();

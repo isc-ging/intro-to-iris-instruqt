@@ -6,7 +6,7 @@ Method OnRequest(pRequest As HoleFoods.Interop.Msg.OrderRequest, Output pRespons
     set tSC = $$$OK
 
     set tSC = ..SendRequestSync("OrderProcessor", pRequest, .tOrderResponse)
-    quit:$$$ISERR(tSC) tSC
+    quit:$$$ISERR(tSC) $$$OK
 
     set result = tOrderResponse.StringValue
 
