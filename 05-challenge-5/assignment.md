@@ -19,11 +19,11 @@ tabs:
   hostname: iris
   path: /csp/user/_DeepSee.UserPortal.DashboardViewer.zen?DASHBOARD=HoleFoods/SalesDash.dashboard
   port: 52773
-- id: 9hibrbjwdyma
-  title: IRIS2
+- id: ng7utkii6ieo
+  title: Shop
   type: service
   hostname: iris
-  path: /csp/user/_DeepSee.UserPortal.DashboardViewer.zen?DASHBOARD=HoleFoods/ExploratoryDashboard.dashboard
+  path: /csp/user/order.html
   port: 52773
 difficulty: ""
 enhanced_loading: null

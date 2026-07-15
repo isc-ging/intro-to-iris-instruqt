@@ -273,7 +273,6 @@ ClassMethod CreateRecords(pNewBuild As %Boolean, pCount As %Integer = 100, pVerb
 			set tList($I(tList)) = $LB("Lifesavers (roll)","SKU-451",1.15,"Candy")
 			set tList($I(tList)) = $LB("Swiss Cheese (sliced)","SKU-712",5.95,"Dairy")
 			set tList($I(tList)) = $LB("Onion ring","SKU-222",5.95,"Vegetable")
-			set tList($I(tList)) = $LB("Onion ring","SKU-223",4.95,"Vegetable")
 			set tList($I(tList)) = $LB("Calamari (frozen)","SKU-601",22.95,"Seafood")
 
 			set tProductCount = 0

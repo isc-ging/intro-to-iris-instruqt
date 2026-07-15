@@ -40,7 +40,7 @@ The most common type of databases is relational databases, these are tabular dat
 
 ```sql
 SELECT
-SKU, Category, Name, Price
+SKU, Category, Name, Price, Stock
 FROM HoleFoods.Product
 ```
 
@@ -48,7 +48,7 @@ FROM HoleFoods.Product
 
 You'll see a table of products from our fictional retailer of foods with Holes in them.
 
-The *relational* part of the name, refers to the tables being related to each other. For example, our table of shop sales (HoleFood.Transactions), only details the product ID.
+The *relational* part of the name, refers to the tables being related to each other, meaning the data in one table might reference data from another table. Lets take a look at our table of transactions:
 
 **Now try running this command:**
 
@@ -58,7 +58,7 @@ SELECT
 FROM HoleFoods.SalesTransaction
 ```
 
-We can see the transaction details the Product ID sold. In IRIS it is very easy to find values from linked tables.
+We can see the transaction details the Product ID (SKU) sold. In IRIS it is very easy to find values from linked tables.
 
 **Lets re-run the above command with a small change to show the Product Name**
 
@@ -69,21 +69,25 @@ FROM HoleFoods.SalesTransaction
 ```
 This command uses `->` to implicitly join the Transactions and Products table to fetch the product name.
 
-Before moving on from the Relational Table view, lets add one custom product to the dataset.
+These queries use SQL, or Standard Query Language, which is, as the name suggests the universal way to query relational data.
+
+## Adding a new Product
+
+Before moving on from the Relational Table view, lets add one new product to the dataset.
 
 **Execute the insert command to enter a new product item:**
 
 ```sql
 INSERT INTO HoleFoods.Product
-(Category, Name, Price, SKU)
+(Category, Name, Price, SKU, Stock)
 VALUES
-('Snack', 'Gummy Rings', 2.99, 'SKU-976')
+('Snack', 'Gummy Rings', 2.99, 'SKU-976', 120)
 ```
 
 **And just to double check its been added, run:**
 
 ```sql
 SELECT
-ID, Category, Name, Price, SKU
+SKU, Category, Name, Price, Stock
 FROM HoleFoods.Product
 ```

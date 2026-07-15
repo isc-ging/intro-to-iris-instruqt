@@ -35,7 +35,7 @@ enhanced_loading: null
 ---
 This is VS Code, a standard Integrated Developer Environment, or fancy code editor for the non-technical. VS Code is the recommended IDE for IRIS, and there are a number of extensions that supercharge the VS Code-IRIS connection.
 
-**From the explorer menu on the left, open the Intro/ProductChanges.cls file.**
+**From the explorer menu on the left, open the HoleFoods/ProductChanges.cls file.**
 
 This is an IRIS class. We won't go into detail about the code at the moment, although there are plenty more tutorials available if you would like to find out more. Instead we are going to use the two functions inside the class to demonstrate how to run code in IRIS.
 
@@ -55,15 +55,14 @@ This function retrives the product details from the database, given by the SKU I
 do ##class(HoleFoods.ProductChanges).PrintProductDetails("SKU-199")
 ```
 
-Lets try the other method in the file, which is used to change the price of the product in the database. HoleFoods has had a good sales year and wants to reduce the price for customers! Our Gummy Rings are going from 2.99 to 1.99.
-
+Lets try the other method in the file, which is used to add stock to a product in the database. We've just had a shipment of 100 new bags  of Gummy Rings!
 **In the terminal, run the following command**
 
 ```objectscript,run
-do ##class(HoleFoods.ProductChanges).ChangeProductPrice("SKU-976", 1.99)
+do ##class(HoleFoods.ProductChanges).Restock("SKU-976", 100)
 ```
 
-This function is contained in the same file as the PrintProductDetails function, but is written in a different language! This time we are accessing the data directly with Python. 
+This function is contained in the same file as the PrintProductDetails function, but is written in a different language! This time we are accessing the data directly with Python.
 
 Since 2022, IRIS has included Python as an embedded language. This innovation means the latency-saving gains of running code next to the data can also be accessed with Python, the most popular programming language in the world.
 
@@ -78,6 +77,6 @@ Finally, lets return to the Management Portal to see the change from there.
 **Open the [IRIS tab](tab-1), then paste the following command into the command box, and click execute**
 
 ```sql
-SELECT ID, Category, Name, Price FROM HoleFoods.Product WHERE ID='SKU-976'
+SELECT SKU, Category, Name, Price, Stock FROM HoleFoods.Product WHERE ID='SKU-976'
 ```
 And yes, the price has changed to 1.99, our customers will be so pleased!

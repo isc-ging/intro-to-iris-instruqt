@@ -44,7 +44,7 @@ cat <<EOF>> .vscode/keybindings.json
 ]
 EOF
 
-cat <<EOF>>/opt/intersystems/src/challenge-3/Intro/ProductChanges.cls
+cat <<EOF>>/opt/intersystems/src/challenge-3/HoleFoods/ProductChanges.cls
 Class HoleFoods.ProductChanges Extends %RegisteredObject
 {
 
@@ -60,25 +60,26 @@ ClassMethod PrintProductDetails(pId As %String) As %Status
         write "Product Name: "_product.Name, !
         write "Product Category: "_product.Category,!
         write "Product Price: "_product.Price ,! 
+        write "Product in Stock: "_product.Stock
         write !
 }
 
-/// Changes the current price of the product
-ClassMethod ChangeProductPrice(pId As %String, pPrice As %Numeric) As %Status [ Language = python ]
+/// Restock the product with new stock
+ClassMethod Restock(id As %String, newStock As %Numeric) As %Status [ Language = python ]
 {
         import iris #Embedded Python IRIS module
 
         # Open Product by ID
         product = iris.HoleFoods.Product._OpenId(pId)
 
-        old_price = product.Price
+        old_stock = product.Stock
 
-        print(f"Changing product price from {old_price} to {pPrice}")
+        # Add the new stock to the existing value
+        product.Stock = product.Stock + newStock
 
-        # Set product price to new price
-        product.Price = pPrice
-        
-        # Save the product to database
+        print(f"Restocking product, there is now {product.Stock} of {product.Name} units in stock")
+
+        # Save the changes to the database
         out = product._Save()
 }
 

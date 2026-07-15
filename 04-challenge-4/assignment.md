@@ -13,6 +13,12 @@ notes:
 
     Because integration runs directly within the IRIS platform, data flows can be managed, monitored, and processed in real time, with full transactional support. This ensures reliability and consistency, even in complex, high-volume environments.
 tabs:
+- id: vl33es18zc72
+  title: Shop
+  type: service
+  hostname: iris
+  path: /csp/user/order.html
+  port: 52773
 - id: hezenzl4t4re
   title: IRIS
   type: service
@@ -20,12 +26,6 @@ tabs:
   path: /ui/interop/interop-editor/index.html?NAMESPACE=USER&%24PRODUCTION=HoleFoods.Interop.Production
   port: 52773
   protocol: http
-- id: vl33es18zc72
-  title: Shop
-  type: service
-  hostname: iris
-  path: /csp/user/order.html
-  port: 52773
 - id: myvbqfctfiz9
   title: Mail
   type: service
@@ -40,9 +40,19 @@ Lets start by submitting an order. **In the [Shop](tab-0), find the Gummy Rings 
 
 And we get redirected to a thank you page. Seems pretty standard. Let's take a look at the back-end
 
-**Open [IRIS](tab-1)**. You will see the Interoperability Portal.
 
-We have three business host, these are reusable and configurable components that perform a task. **Inbound host**s manage a connection to an incoming system — for example a web-form being submitted, an email arriving in an inbox, a new file being placed in a watched directory. **Process Hosts** handle logic-based message routing. **Outbound hosts** handle any results or outbound calls to another systems, for example writing to a database, querying an external API or database, or sending alerts.
+**Open [IRIS](tab-1)**. You should see the Interoperability Portal, looking something like this:
+
+![Interop Portal](..\assets\ProductionPortal.png)
+
+If you don't see this, or if it has only half loaded, hit the refresh button in the top right of the screen:
+
+![Refresh Button](..\assets\RefreshButton.png)
+
+We have three business host, these are reusable and configurable components that perform a task.
+- **Inbound host**s manage a connection to an incoming system — for example a web-form being submitted, an email arriving in an inbox, a new file being placed in a watched directory.
+- **Process Hosts** handle logic-based message routing.
+- **Outbound hosts** handle any results or outbound calls to another systems, for example writing to a database, querying an external API or database, or sending alerts.
 
 In our example, our production recieves an order request, and sends it to the OrderProcessor function which handles the updating of the database and organisation of the shipment.
 
@@ -58,17 +68,15 @@ To configure this, select:
 
 When you are finished, click **Create**.
 
-
-
-
-
+Afterwards click on the new `EmailOperation` Host, then click `Start Host`
+![alt text](..\assets\StartHost.png)
 # Trying the Production Again
 
 Lets see if out new component works.
 
 **Return to the [Shop](tab-1) tab, and submit another order for some more Gummy Rings.** This time, the thank you page should say that it has sent you an email. Lets check that this is true.
 
-**Open the [Mail tab](tab-2).** You will see an email inbox. Hopefully, you should see a new message in the inbox, open it up and take a mlook at the order confirmation.
+**Open the [Mail tab](tab-2).** You will see an email inbox. Hopefully, you should see a new message in the inbox, open it up and take a look at the order confirmation.
 
 
 

@@ -10,6 +10,7 @@ Method OnProcessInput(pInput As Ens.StringRequest, Output pOutput As Ens.StringR
         set msg.SKU = body.SKU
         set msg.Quantity = body.Quantity
         set msg.Email = body.Email
+        set msg.City = body.City
 
         set tSC = ..SendRequestSync("Router", msg, .pOutput)
     } catch ex {

@@ -11,7 +11,7 @@ Property SKU As %String(MAXLEN = 22);
 
 Property Price As %Numeric(MINVAL = 0);
 
-Property Stock As %Integer [ InitialExpression = 100 ];
+Property Stock As %Integer [ InitialExpression = 200 ];
 
 Storage Default
 {
