@@ -45,7 +45,7 @@ cat <<EOF>> .vscode/keybindings.json
 EOF
 
 cat <<EOF>>/opt/intersystems/src/challenge-3/Intro/ProductChanges.cls
-Class Intro.ProductChanges Extends %RegisteredObject
+Class HoleFoods.ProductChanges Extends %RegisteredObject
 {
 
 /// Prints the details of a product in the database

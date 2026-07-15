@@ -1,6 +1,6 @@
 ---
-slug: untitled-challenge-wbobj4
-id: ntbbkt4on5gb
+slug: challenge-1
+id: w54gu5h5s7cr
 type: challenge
 title: Welcome to IRIS
 notes:
@@ -21,13 +21,13 @@ notes:
 
     **All built within a secure, controlled environment designed for the worlds most important applications**.
 tabs:
-- id: 26dci3k4dcgp
+- id: 5g0s5v617m0s
   title: IRIS
   type: service
   hostname: iris
   path: /csp/sys/%25CSP.Portal.Home.zen?$NAMESPACE=USER
   port: 52773
-- id: lsyjaca1qq8b
+- id: guct34isfvex
   title: term
   type: terminal
   hostname: iris

@@ -1,6 +1,6 @@
 ---
-slug: untitled-challenge-izn5ts
-id: m5hdb4dyudys
+slug: challenge-2
+id: nbcghntewzn3
 type: challenge
 title: Data Platform
 notes:
@@ -16,16 +16,21 @@ notes:
 
     To explore this further, see the Data Models in IRIS tutorial linked at the end of this guide, for now though, we will start with a simple example.
 tabs:
-- id: spbwreyuhnf7
+- id: dhdjss1vlojq
   title: IRIS
   type: service
   hostname: iris
   path: /csp/sys/exp/%25CSP.UI.Portal.SQL.Home.zen?$NAMESPACE=USER
   port: 52773
-- id: 9kui0qjuccui
+- id: voulgi1au7zo
   title: term
   type: terminal
   hostname: iris
+- id: ysjywvao8tly
+  title: bash
+  type: terminal
+  hostname: iris
+  cmd: /bin/bash
 difficulty: ""
 enhanced_loading: null
 ---
@@ -35,7 +40,7 @@ The most common type of databases is relational databases, these are tabular dat
 
 ```sql
 SELECT
-ID, Category, Name, Price, SKU
+SKU, Category, Name, Price
 FROM HoleFoods.Product
 ```
 
@@ -49,7 +54,7 @@ The *relational* part of the name, refers to the tables being related to each ot
 
 ```sql
 SELECT
-ID, AmountOfSale, DateOfSale, Product,  UnitsSold
+ AmountOfSale, DateTimeOfSale, Product,  UnitsSold
 FROM HoleFoods.SalesTransaction
 ```
 
@@ -59,7 +64,7 @@ We can see the transaction details the Product ID sold. In IRIS it is very easy 
 
 ```sql
 SELECT
-ID, AmountOfSale, DateOfSale, Product->Name,  UnitsSold
+AmountOfSale, DateOfSale, Product->Name,  UnitsSold
 FROM HoleFoods.SalesTransaction
 ```
 This command uses `->` to implicitly join the Transactions and Products table to fetch the product name.

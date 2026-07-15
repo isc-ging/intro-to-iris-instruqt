@@ -44,7 +44,8 @@ pgrep -a mailpit || {
 if [ ! -d "/home/irisowner/intro-to-iris-instruqt" ]; then
 	apt-get update && apt-get install -y git
 	cd /home/irisowner
-	git clone https://www.github.com/isc-ging/iris-instruqt
+	ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+	git clone https://www.github.com/isc-ging/intro-to-iris-instruqt
 fi
 
 

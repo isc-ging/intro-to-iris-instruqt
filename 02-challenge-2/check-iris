@@ -1,0 +1,35 @@
+#!/bin/bash
+
+exec > >(tee /tmp/check-challenge-2.log) 2>&1
+set -euxo pipefail
+
+# Check if SKU-976 exists with price 2.99 using iris session
+cat > /tmp/check-sku.cos <<'EOF'
+set stmt=##class(%SQL.Statement).%New()
+set status=stmt.%Prepare("SELECT Price FROM HoleFoods.Product WHERE SKU=?")
+set rs=stmt.%Execute("SKU-976")
+if rs.%Next() write rs.Price
+if 'rs.%Next() write "NOT_FOUND"
+halt
+EOF
+
+RESULT=$(su - irisowner -c "iris session IRIS -U USER < /tmp/check-sku.cos" 2>/dev/null | grep -v "^USER>" | grep -v "Node:" | grep -v "^$" | tail -1)
+
+# Trim whitespace
+RESULT=$(echo "${RESULT}" | tr -d '\r\n' | xargs)
+
+if [ "${RESULT}" = "NOT_FOUND" ]; then
+  fail-message "Gummy Rings product (SKU-976) was not found in the database. Please insert the product using the INSERT command."
+  exit 1
+fi
+
+# Check if price is 2.99
+PRICE_NUMERIC=$(echo "${RESULT}" | awk '{printf "%.2f", $1}')
+
+if [ "${PRICE_NUMERIC}" != "2.99" ]; then
+  fail-message "SKU-976 price is ${PRICE_NUMERIC}, but should be 2.99. Please check the INSERT statement."
+  exit 1
+fi
+
+# Success - product exists with correct price
+exit 0

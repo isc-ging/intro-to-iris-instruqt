@@ -35,7 +35,7 @@ ClassMethod StopJournalling(db As %String) As %Status
 }
 
 /// Add this alias so that each DeepSee sample has a Setup() method
-ClassMethod Setup(pCount As %Integer = 1000, pASync As %Boolean = 1, pVerbose As %Boolean = 1)
+ClassMethod Setup(pCount As %Integer = 2000, pASync As %Boolean = 1, pVerbose As %Boolean = 1)
 {
 	
 	// Enable DeepSee in the default app of the current namespace
@@ -357,6 +357,10 @@ ClassMethod CreateRecords(pNewBuild As %Boolean, pCount As %Integer = 100, pVerb
 		set tRows = 0
 		set tYesterday = $piece($H,",",1) - 1
 
+		// Track Rome pasta sales to ensure exactly 42 units
+		set tRomePastaUnits = 0
+		set tRomePastaTarget = 42
+
 		for n = 1:1:tCount {
 			set tRecord = ##class(Transaction).%New()
 
@@ -373,7 +377,7 @@ ClassMethod CreateRecords(pNewBuild As %Boolean, pCount As %Integer = 100, pVerb
 			if tH > tYesterday { set tH = tYesterday }
 
 			set tRecord.DateTimeOfSale = $ZDT(tH_","_$R(86400), 3)
-			
+
 			// product
 			set tProduct = tProducts($R(tProductCount)+1)
 			set tRecord.Product = tProduct
@@ -410,6 +414,13 @@ ClassMethod CreateRecords(pNewBuild As %Boolean, pCount As %Integer = 100, pVerb
 						}
 					}
 				}
+
+				// Track Rome pasta sales
+				if ($IsObject(tRecord.Outlet) && $IsObject(tRecord.Product)) {
+					if (tRecord.Outlet.City = "Rome") && (tRecord.Product.Category = "Pasta") {
+						set tRomePastaUnits = tRomePastaUnits + tRecord.UnitsSold
+					}
+				}
 			}
 			else {
 				set tRecord.Outlet = tCities($R(tCityCount)+1)
@@ -425,7 +436,107 @@ ClassMethod CreateRecords(pNewBuild As %Boolean, pCount As %Integer = 100, pVerb
 			if (pVerbose&&('(tRows#1000))) write $C(13,27)_"[0J"_$FN(tRows,",",0)_" rows created"
 		}
 
+		// Adjust Rome pasta sales to exactly 42 units
+		if (pNewBuild) {
+			do ..AdjustRomePastaSales(tRomePastaUnits, tRomePastaTarget, pVerbose)
+		}
+
 		if (pVerbose) write $C(13,27)_"[0J"_$FN(+$G(tRows),",",0)_" row(s) created"
+	}
+	catch(ex) {
+		set tSC = ex.AsStatus()
+	}
+
+	if $$$ISERR(tSC) {
+		do $System.Status.DisplayError(tSC)
+	}
+}
+
+/// Adjust Rome pasta sales to exactly the target amount
+ClassMethod AdjustRomePastaSales(pCurrentUnits As %Integer, pTargetUnits As %Integer, pVerbose As %Boolean = 1) [ Private ]
+{
+	set tSC = $$$OK
+	try {
+		// Find Rome outlet ID
+		set tRomeId = ""
+		set tRS = ##class(%ResultSet).%New()
+		set tSC = tRS.Prepare("SELECT ID FROM HoleFoods.Outlet WHERE City = 'Rome'")
+		if $$$ISERR(tSC) quit
+		set tSC = tRS.Execute()
+		if $$$ISERR(tSC) quit
+		if tRS.Next() {
+			set tRomeId = tRS.Data("ID")
+		}
+		if tRomeId = "" quit
+
+		// Find pasta product IDs
+		kill tPastaProducts
+		set tRS = ##class(%ResultSet).%New()
+		set tSC = tRS.Prepare("SELECT ID FROM HoleFoods.Product WHERE Category = 'Pasta'")
+		if $$$ISERR(tSC) quit
+		set tSC = tRS.Execute()
+		if $$$ISERR(tSC) quit
+		while tRS.Next() {
+			set tPastaProducts(tRS.Data("ID")) = ""
+		}
+
+		set tDiff = pTargetUnits - pCurrentUnits
+
+		if tDiff > 0 {
+			// Need to add more pasta sales in Rome
+			if (pVerbose) write !,"Adding ",tDiff," pasta units to Rome sales"
+			for i = 1:1:tDiff {
+				set tRecord = ##class(Transaction).%New()
+				set tRecord.Outlet = ##class(Outlet).%OpenId(tRomeId)
+				// Pick random pasta product
+				set tPastaId = $O(tPastaProducts(""))
+				set tRecord.Product = ##class(Product).%OpenId(tPastaId)
+				set tRecord.UnitsSold = 1
+				set tRecord.Discount = 0
+				set tRecord.AmountOfSale = tRecord.Product.Price
+				set tRecord.Channel = 1
+				// Recent date
+				set tYesterday = $piece($H,",",1) - 1
+				set tRecord.DateTimeOfSale = $ZDT(tYesterday_","_$R(86400), 3)
+				set tSC = tRecord.%Save()
+				if $$$ISERR(tSC) quit
+			}
+		}
+		elseif tDiff < 0 {
+			// Need to remove pasta sales from Rome or adjust quantities
+			set tToRemove = -tDiff
+			if (pVerbose) write !,"Reducing Rome pasta sales by ",tToRemove," units"
+
+			set tRS = ##class(%ResultSet).%New()
+			set tSC = tRS.Prepare("SELECT ID, UnitsSold FROM HoleFoods.Transaction WHERE Outlet = ? AND Product->Category = 'Pasta' ORDER BY ID")
+			if $$$ISERR(tSC) quit
+			set tSC = tRS.Execute(tRomeId)
+			if $$$ISERR(tSC) quit
+
+			while (tRS.Next() && (tToRemove > 0)) {
+				set tTxnId = tRS.Data("ID")
+				set tUnits = tRS.Data("UnitsSold")
+				set tTxn = ##class(Transaction).%OpenId(tTxnId)
+				if $IsObject(tTxn) {
+					if tUnits <= tToRemove {
+						// Delete entire transaction
+						set tSC = ##class(Transaction).%DeleteId(tTxnId)
+						set tToRemove = tToRemove - tUnits
+					}
+					else {
+						// Reduce units
+						set tTxn.UnitsSold = tUnits - tToRemove
+						set tTxn.AmountOfSale = tTxn.UnitsSold * tTxn.Product.Price * (1 - tTxn.Discount)
+						set tSC = tTxn.%Save()
+						set tToRemove = 0
+					}
+					if $$$ISERR(tSC) quit
+				}
+			}
+		}
+		else {
+			if (pVerbose) write !,"Rome pasta sales already at target: ",pTargetUnits," units"
+		}
 	}
 	catch(ex) {
 		set tSC = ex.AsStatus()

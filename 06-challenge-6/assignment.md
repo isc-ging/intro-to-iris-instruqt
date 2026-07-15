@@ -1,35 +1,28 @@
 ---
-slug: untitled-challenge-8zgvwv
-id: xv2508fzxpjg
+slug: challenge-6
+id: mm5qwbssizel
 type: challenge
 title: Well Done
 notes:
 - type: text
   contents: |-
-    We've come to the end of your whistle-stop tour to IRIS, well done for getting through it, we hope that it has given you a better idea of the wonders of IRIS.
-
-    As we have seen in this tutorial, IRIS can really do it all. Data can travel from an IRIS-hosted webpage, to an IRIS interoperability production, to an analytics dashboard. And thats not all, there are plenty of advanced features like AI and Machine learning solutions, native support for columnar, document, key-value and vector database, and extreme database scalability. 
-
-    IRIS is a data platform build for the worlds most important applications.
-
-notes:
-- type: text
-  contents: |-    
     IRIS is at the core of other InterSystems products, including:
-    - **IRIS for Health** (IRIS with added healthcare modules)
-    - **InterSystems Data Studio** - the low code data integration system
-    - **HealthShare** and **HealthConnect** product Families - solutions for connecting  healthcare systems.
-    - **TrakCare** - InterSystems' electronic healthcare record, holding hospital data around the world
-
-
+    - **IRIS for Health**
+        - IRIS with added healthcare modules
+    - **InterSystems Data Studio**
+        - Low code data integration system
+    - **HealthShare** family of proucts
+        - Healthcare solutions built on IRIS for Health, solving specific healthcare problems
+    - **TrakCare and IntelliCare**
+      - InterSystems' Electronic Healthcare Record systems, running hospitals around the globe
 tabs:
-- id: cpq1vsmv5nf8
+- id: jgp5a3dmkw12
   title: IRIS
   type: service
   hostname: iris
   path: /csp/sys/%25CSP.Portal.Home.zen
   port: 52773
-- id: gnkfsbso4uhx
+- id: 0bnldbodyvic
   title: VS Code
   type: service
   hostname: vscode

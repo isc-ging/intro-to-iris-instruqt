@@ -1,4 +1,4 @@
-slug: untitled-track-g9rgcx
+slug: intro-to-iris
 id: nc1fzutwzscb
 title: Intro To IRIS WIP
 description: ""
@@ -8,7 +8,7 @@ owner: intersystems
 developers:
 - gubsing@hotmail.com
 idle_timeout: 300
-timelimit: 1200
+timelimit: 2400
 sandbox_preset: iris-data-platform
 lab_config:
   sidebar_enabled: true
@@ -16,5 +16,5 @@ lab_config:
   feedback_tab_enabled: false
   loadingMessages: true
   hideStopButton: false
-checksum: "3216103104415750422"
+checksum: "13289898328789459938"
 enhanced_loading: false
