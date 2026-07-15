@@ -50,4 +50,4 @@ Feel free to play around with sandbox, or check out some of our other tutorials:
 - [IRIS For Health Interoperability](https://play.instruqt.com/embed/intersystems/tracks/iris-for-health?token=em_IEo0iBDc0fgagpas)
 - [REST and Angular](https://play.instruqt.com/embed/intersystems/tracks/rest-angular?token=em__YNemOaCLyBswRCM)
 
-	And [loads more](https://developer.intersystems.com/iris-tutorials-for-developers/)!
+And [loads more](https://developer.intersystems.com/iris-tutorials-for-developers/)!

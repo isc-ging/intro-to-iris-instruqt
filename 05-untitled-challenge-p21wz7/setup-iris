@@ -3,8 +3,7 @@
 set -euo pipefail
 
 iris session IRIS -U USER <<'EOSQL'
-do $system.OBJ.Load("/tmp/src/HoleFoods/Analytics/Dashboard.cls","cuk-d")
-do $system.OBJ.Load("/tmp/src/HoleFoods/Analytics/Setup.cls","cuk-d")
+do $system.OBJ.Import("/home/irisowner/intro-to-iris-instruqt/src/HoleFoods/Analytics","cuk")
 EOSQL
 
 iris session IRIS -U USER <<'EOSQL'

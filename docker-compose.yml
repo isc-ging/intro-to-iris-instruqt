@@ -3,12 +3,13 @@ services:
     image: intersystems/iris-community:latest-em
     ports:
       - "52773:52773"
-    volumes:
-      - ./:/tmp/
-    depends_on:
-      - mailpit
-  mailpit:
-    image: axllent/mailpit:latest
-    ports:
       - "8025:8025"
-      - "1025:1025"
+    volumes:
+      - ./:/home/irisowner/intro-to-iris-instruqt
+  #   depends_on:
+  #     - mailpit
+  # mailpit:
+  #   image: axllent/mailpit:latest
+  #   ports:
+  #     - "8025:8025"
+  #     - "1025:1025"

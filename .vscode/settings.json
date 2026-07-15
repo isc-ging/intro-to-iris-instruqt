@@ -2,7 +2,7 @@
     "objectscript.conn": {
         "server": "52773",
         "ns": "USER",
-        "active": true
+        "active": false
     },
     "intersystems.servers": {
         "52773": {

@@ -17,10 +17,6 @@ ClassMethod Run() As %Status
         set tSC = ..RegisterWebApp()
         quit:$$$ISERR(tSC)
 
-        write "Copying web pages to /csp/user/...",!
-        set tSC = ..CopyWebPages()
-        quit:$$$ISERR(tSC)
-
         write "Starting production...",!
         set tSC = ..StartProduction()
         quit:$$$ISERR(tSC)
@@ -37,12 +33,8 @@ ClassMethod AddStockColumn() As %Status
 {
     set tSC = $$$OK
     try {
-        set tSC = ##class(%SYSTEM.OBJ).Load("/tmp/src/HoleFoods/Product.cls", "cuk-d")
-        quit:$$$ISERR(tSC)
-
         &sql(UPDATE HoleFoods.Product SET Stock = 100 WHERE Stock IS NULL)
-
-        write "Stock column added.",!
+        write "Stock column updated.",!
     } catch ex {
         set tSC = ex.AsStatus()
     }
@@ -100,28 +92,6 @@ ClassMethod RegisterWebApp() As %Status
     quit tSC
 }
 
-ClassMethod CopyWebPages() As %Status
-{
-    set tSC = $$$OK
-    try {
-        set dest = "/usr/irissys/csp/user/"
-
-        set tSC = ##class(%File).CopyFile("/tmp/src/order.html", dest_"order.html", 1)
-        quit:$$$ISERR(tSC)
-        write "Copied order.html",!
-
-        set tSC = ##class(%File).CopyFile("/tmp/src/thankyou.html", dest_"thankyou.html", 1)
-        quit:$$$ISERR(tSC)
-        write "Copied thankyou.html",!
-
-        set tSC = ##class(%File).CopyFile("/tmp/src/thankyou-noemail.html", dest_"thankyou-noemail.html", 1)
-        quit:$$$ISERR(tSC)
-        write "Copied thankyou-noemail.html",!
-    } catch ex {
-        set tSC = ex.AsStatus()
-    }
-    quit tSC
-}
 
 ClassMethod StartProduction() As %Status
 {
