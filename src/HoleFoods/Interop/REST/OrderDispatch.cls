@@ -5,7 +5,35 @@ XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
 {
 <Routes>
   <Route Url="/order" Method="POST" Call="PlaceOrder"/>
+  <Route Url="/outlets" Method="GET" Call="GetOutlets"/>
+  <Route Url="/products" Method="GET" Call="GetProducts"/>
 </Routes>
+}
+
+ClassMethod GetOutlets() As %Status
+{
+    set %response.ContentType = "application/json"
+    set rs = ##class(%SQL.Statement).%ExecDirect(,
+        "SELECT ID, City, Country->Name AS CountryName FROM HoleFoods.Outlet ORDER BY City")
+    set arr = []
+    while rs.%Next() {
+        do arr.%Push({"id": (rs.ID), "city": (rs.City), "country": (rs.CountryName)})
+    }
+    write arr.%ToJSON()
+    quit $$$OK
+}
+
+ClassMethod GetProducts() As %Status
+{
+    set %response.ContentType = "application/json"
+    set rs = ##class(%SQL.Statement).%ExecDirect(,
+        "SELECT SKU, Name, Price FROM HoleFoods.Product ORDER BY Name")
+    set arr = []
+    while rs.%Next() {
+        do arr.%Push({"sku": (rs.SKU), "name": (rs.Name), "price": (rs.Price)})
+    }
+    write arr.%ToJSON()
+    quit $$$OK
 }
 
 ClassMethod PlaceOrder() As %Status

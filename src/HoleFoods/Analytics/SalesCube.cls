@@ -14,17 +14,7 @@ XData Cube [ XMLNamespace = "http://www.intersystems.com/deepsee" ]
       </level>
     </hierarchy>
   </dimension>
-  <dimension name="Outlet" disabled="false" hasAll="false" allCaption="All Outlet" allDisplayName="Outlet" type="data" hidden="false" showHierarchies="default">
-    <hierarchy name="H1" disabled="false" hidden="false">
-      <level name="Region" disabled="false" sourceProperty="Outlet.Country.Region.Name" list="false" useDisplayValue="true" useAsFilter="true" hidden="false" factNumber="4">
-      </level>
-      <level name="Country" disabled="false" sourceProperty="Outlet.Country.Name" list="false" useDisplayValue="true" useAsFilter="true" hidden="false" factNumber="5">
-      </level>
-      <level name="City" disabled="false" sourceProperty="Outlet.City" list="false" useDisplayValue="true" useAsFilter="true" hidden="false" factNumber="6">
-      </level>
-    </hierarchy>
-  </dimension>
-  <dimension name="DateOfSale" disabled="false" hasAll="false" allCaption="All DateOfSale" allDisplayName="DateOfSale" sourceProperty="DateOfSale" type="time" calendar="gregorian" hidden="false" showHierarchies="default">
+  <dimension name="DateTimeOfSale" disabled="false" hasAll="false" allCaption="All DateTimeOfSale" allDisplayName="DateTimeOfSale" sourceProperty="DateTimeOfSale" type="time" calendar="gregorian" hidden="false" showHierarchies="default">
     <hierarchy name="H1" disabled="false" hidden="false">
       <level name="YearSold" disabled="false" timeFunction="Year" list="false" useDisplayValue="true" useAsFilter="true" hidden="false" factNumber="7">
       </level>
@@ -34,13 +24,23 @@ XData Cube [ XMLNamespace = "http://www.intersystems.com/deepsee" ]
       </level>
     </hierarchy>
   </dimension>
+  <dimension name="Outlet" disabled="false" hasAll="false" allCaption="All Outlet" allDisplayName="Outlet" type="data" hidden="false" showHierarchies="default">
+    <hierarchy name="H1" disabled="false" hidden="false">
+      <level name="Region" disabled="false" sourceProperty="Outlet.Country.Region.Name" list="false" useDisplayValue="true" useAsFilter="true" hidden="false" factNumber="6">
+      </level>
+      <level name="Country" disabled="false" sourceProperty="Outlet.Country.Name" list="false" useDisplayValue="true" useAsFilter="true" hidden="false" factNumber="4">
+      </level>
+      <level name="City" disabled="false" sourceProperty="Outlet.City" list="false" useDisplayValue="true" useAsFilter="true" hidden="false" factNumber="5">
+      </level>
+    </hierarchy>
+  </dimension>
   <measure name="AmountOfSale" disabled="false" sourceProperty="AmountOfSale" aggregate="SUM" type="number" hidden="false" searchable="false" factNumber="1">
   </measure>
   <measure name="Discount" disabled="false" sourceProperty="Discount" aggregate="SUM" type="number" hidden="false" searchable="false" factNumber="2">
   </measure>
   <measure name="UnitsSold" disabled="false" sourceProperty="UnitsSold" aggregate="SUM" type="number" hidden="false" searchable="false" factNumber="3">
   </measure>
-  <listing name="Transaction Detail" disabled="false" listingType="table" fieldList="DateOfSale,Product->Name,Product->Category,Outlet->City,Channel,UnitsSold,AmountOfSale" orderBy="DateOfSale DESC">
+  <listing name="Transaction Detail" disabled="false" listingType="table" fieldList="DateTimeOfSale,Product-&gt;Name,Product-&gt;Category,Channel,UnitsSold,AmountOfSale" orderBy="DateTimeOfSale DESC" selectMode="2">
   </listing>
 </cube>
 }

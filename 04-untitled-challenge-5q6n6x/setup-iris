@@ -63,6 +63,8 @@ Property Quantity As %Integer;
 
 Property Email As %String(MAXLEN = 200);
 
+Property City As %String(MAXLEN = 100);
+
 }
 __ORDER_REQUEST_CLS__
 
@@ -76,30 +78,88 @@ cat > /tmp/src/order.html <<'__ORDER_HTML__'
     body { font-family: sans-serif; max-width: 420px; margin: 60px auto; padding: 0 16px; }
     h2 { margin-bottom: 24px; }
     label { display: block; margin-top: 14px; font-weight: 500; }
-    input { width: 100%; padding: 8px; margin-top: 4px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+    input, select { width: 100%; padding: 8px; margin-top: 4px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem; }
     input:disabled { background: #f5f5f5; color: #666; }
     button { margin-top: 20px; padding: 10px 28px; font-size: 1rem; cursor: pointer; background: #2a7ae2; color: #fff; border: none; border-radius: 4px; }
     button:hover { background: #1a5bb5; }
+    button:disabled { background: #aaa; cursor: not-allowed; }
     #error { margin-top: 16px; color: #c00; font-weight: bold; display: none; }
+    .price-hint { font-size: 0.85rem; color: #555; margin-top: 2px; }
   </style>
 </head>
 <body>
   <h2>Place an Order</h2>
   <form id="orderForm">
-    <label>SKU
-      <input type="text" name="sku" value="SKU-976" required>
+    <label>Product
+      <select name="sku" required>
+        <option value="">Loading products...</option>
+      </select>
     </label>
+    <p id="priceHint" class="price-hint"></p>
     <label>Quantity
       <input type="number" name="quantity" value="1" min="1" required>
+    </label>
+    <label>City
+      <select name="city" required>
+        <option value="">Loading cities...</option>
+      </select>
     </label>
     <label>Confirmation Email
       <input type="email" name="email" value="customer@example.com" disabled>
     </label>
-    <button type="submit">Submit Order</button>
+    <button type="submit" id="submitBtn" disabled>Submit Order</button>
   </form>
   <div id="error"></div>
 
   <script>
+    var productPrices = {};
+
+    async function loadDropdowns() {
+      var submitBtn = document.getElementById('submitBtn');
+      try {
+        var [productsResp, outletsResp] = await Promise.all([
+          fetch('/api/holeFoods/products'),
+          fetch('/api/holeFoods/outlets')
+        ]);
+        var products = await productsResp.json();
+        var outlets = await outletsResp.json();
+
+        var skuSel = document.querySelector('[name=sku]');
+        skuSel.innerHTML = '<option value="">-- Select a product --</option>';
+        products.forEach(function(p) {
+          productPrices[p.sku] = p.price;
+          var opt = document.createElement('option');
+          opt.value = p.sku;
+          opt.textContent = p.name + ' (' + p.sku + ')';
+          if (p.sku === 'SKU-976') opt.selected = true;
+          skuSel.appendChild(opt);
+        });
+        updatePriceHint();
+
+        var citySel = document.querySelector('[name=city]');
+        citySel.innerHTML = '<option value="">-- Select a city --</option>';
+        outlets.forEach(function(o) {
+          var opt = document.createElement('option');
+          opt.value = o.city;
+          opt.textContent = o.city.charAt(0) + o.city.slice(1).toLowerCase() + ', ' + o.country;
+          citySel.appendChild(opt);
+        });
+
+        submitBtn.disabled = false;
+      } catch (err) {
+        document.getElementById('error').textContent = 'Failed to load form data: ' + err.message;
+        document.getElementById('error').style.display = 'block';
+      }
+    }
+
+    function updatePriceHint() {
+      var sku = document.querySelector('[name=sku]').value;
+      var hint = document.getElementById('priceHint');
+      hint.textContent = sku && productPrices[sku] ? 'Price: $' + parseFloat(productPrices[sku]).toFixed(2) + ' each' : '';
+    }
+
+    document.querySelector('[name=sku]').addEventListener('change', updatePriceHint);
+
     document.getElementById('orderForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       var errorDiv = document.getElementById('error');
@@ -108,12 +168,13 @@ cat > /tmp/src/order.html <<'__ORDER_HTML__'
       var sku = this.sku.value.trim();
       var quantity = parseInt(this.quantity.value, 10);
       var email = this.email.value.trim();
+      var city = this.city.value;
 
       try {
         var resp = await fetch('/api/holeFoods/order', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ SKU: sku, Quantity: quantity, Email: email })
+          body: JSON.stringify({ SKU: sku, Quantity: quantity, Email: email, City: city })
         });
         var data = await resp.json();
 
@@ -129,6 +190,8 @@ cat > /tmp/src/order.html <<'__ORDER_HTML__'
         errorDiv.style.display = 'block';
       }
     });
+
+    loadDropdowns();
   </script>
 </body>
 </html>
@@ -298,13 +361,22 @@ cat > /var/tmp/HoleFoodsProductionClasses.xml <<'__PRODUCTION_XML__'
             quit
         }
 
+        set outlet = ""
+        if pRequest.City '= "" {
+            set rs = ##class(%SQL.Statement).%ExecDirect(,
+                "SELECT TOP 1 ID FROM HoleFoods.Outlet WHERE City = ?", pRequest.City)
+            if rs.%Next() {
+                set outlet = ##class(HoleFoods.Outlet).%OpenId(rs.ID)
+            }
+        }
+
         set tx = ##class(HoleFoods.Transaction).%New()
         set tx.Product = product
-        set tx.Actual = 1
         set tx.DateOfSale = +$horolog
         set tx.UnitsSold = pRequest.Quantity
         set tx.AmountOfSale = product.Price * pRequest.Quantity
         set tx.Channel = 2
+        if $isObject(outlet) { set tx.Outlet = outlet }
         set tSC = tx.%Save()
         quit:$$$ISERR(tSC)
 
@@ -375,6 +447,7 @@ cat > /var/tmp/HoleFoodsProductionClasses.xml <<'__PRODUCTION_XML__'
         set msg.SKU = body.SKU
         set msg.Quantity = body.Quantity
         set msg.Email = body.Email
+        set msg.City = body.City
 
         set tSC = ..SendRequestSync("Router", msg, .pOutput)
     } catch ex {
@@ -485,9 +558,43 @@ cat > /var/tmp/HoleFoodsProductionClasses.xml <<'__PRODUCTION_XML__'
 <Data><![CDATA[
 <Routes>
   <Route Url="/order" Method="POST" Call="PlaceOrder"/>
+  <Route Url="/outlets" Method="GET" Call="GetOutlets"/>
+  <Route Url="/products" Method="GET" Call="GetProducts"/>
 </Routes>
 ]]></Data>
 </XData>
+
+<Method name="GetOutlets">
+<ClassMethod>1</ClassMethod>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+    set %response.ContentType = "application/json"
+    set rs = ##class(%SQL.Statement).%ExecDirect(,
+        "SELECT ID, City, Country->Name AS CountryName FROM HoleFoods.Outlet ORDER BY City")
+    set arr = []
+    while rs.%Next() {
+        do arr.%Push({"id": (rs.ID), "city": (rs.City), "country": (rs.CountryName)})
+    }
+    write arr.%ToJSON()
+    quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="GetProducts">
+<ClassMethod>1</ClassMethod>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+    set %response.ContentType = "application/json"
+    set rs = ##class(%SQL.Statement).%ExecDirect(,
+        "SELECT SKU, Name, Price FROM HoleFoods.Product ORDER BY Name")
+    set arr = []
+    while rs.%Next() {
+        do arr.%Push({"sku": (rs.SKU), "name": (rs.Name), "price": (rs.Price)})
+    }
+    write arr.%ToJSON()
+    quit $$$OK
+]]></Implementation>
+</Method>
 
 <Method name="PlaceOrder">
 <ClassMethod>1</ClassMethod>

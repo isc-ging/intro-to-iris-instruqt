@@ -6,20 +6,23 @@ Class HoleFoods.Transaction Extends %Persistent [ SqlTableName = SalesTransactio
 /// Track changes to this class.
 Parameter DSTIME = "auto";
 
-Index DateOfSale On DateOfSale;
+Index DateOfSale On DateTimeOfSale;
 
 Index Product On Product [ Type = bitmap ];
 
+
 Index Outlet On Outlet [ Type = bitmap ];
 
-/// Date of this sale.
-Property DateOfSale As %Date;
+/// Date and time of this sale.
+Property DateTimeOfSale As %TimeStamp;
 
-/// Product sold.
-Property Product As Product;
+
 
 /// Store or other outlet in which the sale occurred.
 Property Outlet As Outlet;
+
+/// Product sold.
+Property Product As Product;
 
 /// Channel product was sold through: "Retail" or "Online".
 Property Channel As %String(DISPLAYLIST = ",Retail,Online", VALUELIST = ",1,2");
@@ -43,28 +46,28 @@ Storage Default
 <Value>%%CLASSNAME</Value>
 </Value>
 <Value name="2">
-<Value>DateOfSale</Value>
+<Value>DateTimeOfSale</Value>
 </Value>
 <Value name="3">
 <Value>Product</Value>
 </Value>
 <Value name="4">
-<Value>Outlet</Value>
-</Value>
-<Value name="5">
 <Value>Channel</Value>
 </Value>
-<Value name="6">
+<Value name="5">
 <Value>AmountOfSale</Value>
 </Value>
-<Value name="7">
+<Value name="6">
 <Value>UnitsSold</Value>
 </Value>
-<Value name="8">
+<Value name="7">
 <Value>Discount</Value>
 </Value>
-<Value name="9">
+<Value name="8">
 <Value>Comment</Value>
+</Value>
+<Value name="9">
+<Value>Outlet</Value>
 </Value>
 </Data>
 <DataLocation>^HoleFoods.TransactionD</DataLocation>

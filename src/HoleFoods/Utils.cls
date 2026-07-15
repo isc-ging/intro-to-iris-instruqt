@@ -90,8 +90,13 @@ ClassMethod BuildData(pCount As %Integer = 1000, pASync As %Boolean = 1, pVerbos
 		}
 	}
 
-    //define term lists
-    do ..SetupTermLists()
+	if ##class(%DeepSee.Utils).%CubeExists("HoleFoodSales") {
+		set tSC = ##class(%DeepSee.Utils).%BuildCube("HoleFoodSales",pASync,pVerbose)
+		if $$$ISERR(tSC) {
+			write !,"Error in BuildCube:"
+			do $System.Status.DisplayError(tSC)
+		}
+	}
 
     //define pivot variables
     do ..SetupVariables()
@@ -165,33 +170,28 @@ ClassMethod CreateRecords(pNewBuild As %Boolean, pCount As %Integer = 100, pVerb
 	try {
 		// build new data
 
-		// regions
-		set tTotalPopulation = 0
-
 		if (pNewBuild) {
 			// $LB(population,lat,long)
 			set tRegionList("Asia","Japan","Tokyo") = $LB(12369000,35.623,139.703)
 			set tRegionList("Asia","Japan","Osaka") = $LB(8817166,34.652,135.485)
 			set tRegionList("Asia","China","Beijing") = $LB(17400000,39.860,116.412)
 			set tRegionList("Asia","China","Shanghai") = $LB(16738000,31.224,121.466)
-			set tRegionList("Asia","India","Mumbai") = 	$LB(12778721,18.96,72.819)
-			set tRegionList("Asia","India","Bangalore") = 	$LB(6200000,12.963,77.587)
-
-			set tRegionList("Europe","England","London") = 	$LB(7287555,51.503,-0.145)
+			set tRegionList("Asia","India","Mumbai") = $LB(12778721,18.96,72.819)
+			set tRegionList("Asia","India","Bangalore") = $LB(6200000,12.963,77.587)
+			set tRegionList("Europe","England","London") = $LB(7287555,51.503,-0.145)
 			set tRegionList("Europe","England","Manchester") = $LB(2240230,53.470,-2.237)
-			set tRegionList("Europe","France","Paris") = 	$LB(11174000,48.844,2.355)
-			set tRegionList("Europe","France","Nice") = 	$LB(347100,43.709,7.266)
-			set tRegionList("Europe","Spain","Madrid") = 	$LB(7061748,40.415,-3.709)
+			set tRegionList("Europe","France","Paris") = $LB(11174000,48.844,2.355)
+			set tRegionList("Europe","France","Nice") = $LB(347100,43.709,7.266)
+			set tRegionList("Europe","Spain","Madrid") = $LB(7061748,40.415,-3.709)
 			set tRegionList("Europe","Spain","Barcelona") = $LB(1673075,41.387,2.169)
-			set tRegionList("Europe","Germany","Berlin") = 	$LB(5000000,52.527,13.402)
+			set tRegionList("Europe","Germany","Berlin") = $LB(5000000,52.527,13.402)
 			set tRegionList("Europe","Germany","Munich") = $LB(5203738,48.142,11.578)
 			set tRegionList("Europe","Germany","Frankfurt") = $LB(5600000,50.097,8.678)
 			set tRegionList("Europe","Belgium","Antwerp") = $LB(461496,51.212,4.393)
 			set tRegionList("Europe","Belgium","Brussels") = $LB(1830000,50.845,4.338)
 			set tRegionList("Europe","Netherlands","Amsterdam") = $LB(2158372,52.360,4.877)
-			set tRegionList("Europe","Italy","Rome") = 	$LB(2743796,41.879,12.473)
+			set tRegionList("Europe","Italy","Rome") = $LB(2743796,41.879,12.473)
 			set tRegionList("Europe","Italy","Milan") = $LB(1310320,45.438,9.178)
-
 			set tRegionList("N. America","USA","Boston") = $LB(3406829,42.3612,-71.5)
 			set tRegionList("N. America","USA","New York") = $LB(19306183,40.785,-73.9639)
 			set tRegionList("N. America","USA","Los Angeles") = $LB(9948081,34.027,-118.264)
@@ -199,18 +199,17 @@ ClassMethod CreateRecords(pNewBuild As %Boolean, pCount As %Integer = 100, pVerb
 			set tRegionList("N. America","USA","Atlanta") = $LB(5278904,33.757,-84.354)
 			set tRegionList("N. America","USA","Houston") = $LB(5628101,29.766,-95.390)
 			set tRegionList("N. America","USA","Chicago") = $LB(9785747,41.867,-87.639)
-			set tRegionList("N. America","USA","Sheridan") = $LB(15804,44.787,-106.959)
-
 			set tRegionList("N. America","Canada","Toronto") = $LB(5555912,43.638,-79.406)
 			set tRegionList("N. America","Canada","Montreal") = $LB(3635571,45.501,-73.562)
 			set tRegionList("N. America","Canada","Vancouver") = $LB(2524113,49.248,-123.109)
-
 			set tRegionList("S. America","Brasil","Sao Paolo") = $LB(11150249,-23.544,-46.635)
 			set tRegionList("S. America","Brasil","Rio De Janeiro") = $LB(7145472,-22.894,-43.228)
 			set tRegionList("S. America","Brasil","Brasilia") = $LB(2455903,-15.779,-47.932)
 			set tRegionList("S. America","Chile","Santiago") = $LB(7200000,-31.428,-70.562)
 
-			// regions
+			set tTotalPopulation = 0
+
+			// create regions, countries, outlets
 			set r = $O(tRegionList(""))
 			while (r '= "") {
 				set tRegion = ##class(Region).%New()
@@ -218,7 +217,6 @@ ClassMethod CreateRecords(pNewBuild As %Boolean, pCount As %Integer = 100, pVerb
 				set tSC = tRegion.%Save()
 				if $$$ISERR(tSC) quit
 
-				// countries
 				set c = $O(tRegionList(r,""))
 				while (c '= "") {
 					set tCountry = ##class(Country).%New()
@@ -226,9 +224,7 @@ ClassMethod CreateRecords(pNewBuild As %Boolean, pCount As %Integer = 100, pVerb
 					set tCountry.Region = tRegion
 					set tSC = tCountry.%Save()
 					if $$$ISERR(tSC) quit
-					set tCountryId = tCountry.%Id()
 
-					// cities
 					set ct = $O(tRegionList(r,c,""))
 					while (ct '= "") {
 						set tOutlet = ##class(Outlet).%New()
@@ -240,15 +236,10 @@ ClassMethod CreateRecords(pNewBuild As %Boolean, pCount As %Integer = 100, pVerb
 						set tOutlet.Longitude = $LG(tRegionList(r,c,ct),3)
 						set tSC = tOutlet.%Save()
 						if $$$ISERR(tSC) quit
-						set tCityId = tOutlet.%Id()
-						set tCityCountry(tCityId) = tCountryId	// index used later
 
-						// track total population and distribution
-						// create records proportional to population
 						set tTotalPopulation = tTotalPopulation + tPopulation
 						set tCityDistribution(tTotalPopulation) = tOutlet.%Id()
 
-						set x = $I(tOutletCount)
 						set ct = $O(tRegionList(r,c,ct))
 					}
 					if $$$ISERR(tSC) quit
@@ -257,6 +248,13 @@ ClassMethod CreateRecords(pNewBuild As %Boolean, pCount As %Integer = 100, pVerb
 				if $$$ISERR(tSC) quit
 				set r = $O(tRegionList(r))
 			}
+			if $$$ISERR(tSC) quit
+
+			// certain products are not sold in certain regions
+			set tSkipProduct("Asia","SKU-101") = ""
+			set tSkipProduct("Asia","SKU-712") = ""
+			set tSkipProduct("Europe","SKU-195") = ""
+			set tSkipProduct("N. America","SKU-204") = ""
 
 			// Products: $LB(name,sku,price,type)
 			kill tList
@@ -302,16 +300,11 @@ ClassMethod CreateRecords(pNewBuild As %Boolean, pCount As %Integer = 100, pVerb
 			}
 			if $$$ISERR(tSC) quit
 
-			// certain products are not sold in certain regions
-			set tSkipProduct("Asia","SKU-101") = ""
-			set tSkipProduct("Asia","SKU-712") = ""
-			set tSkipProduct("Europe","SKU-195") = ""
-			set tSkipProduct("N. America","SKU-204") = ""
 		}
 		else {
 			// use existing star tables
 
-			// cities
+			// outlets
 			set tRS = ##class(%ResultSet).%New()
 			set tSC = tRS.Prepare("SELECT ID FROM HoleFoods.Outlet")
 			if $$$ISERR(tSC) quit
@@ -379,7 +372,7 @@ ClassMethod CreateRecords(pNewBuild As %Boolean, pCount As %Integer = 100, pVerb
 			set tH = +$ZDTH(tYear_"-"_$$$iscPadZero(tMonth,2)_"-"_$$$iscPadZero(tDay,2),3)
 			if tH > tYesterday { set tH = tYesterday }
 
-			set tRecord.DateOfSale = tH
+			set tRecord.DateTimeOfSale = $ZDT(tH_","_$R(86400), 3)
 			
 			// product
 			set tProduct = tProducts($R(tProductCount)+1)
@@ -405,25 +398,21 @@ ClassMethod CreateRecords(pNewBuild As %Boolean, pCount As %Integer = 100, pVerb
 				set lr = $R(tTotalPopulation)
 				set li = $O(tCityDistribution(lr))
 				set:li'="" tOutletId = $G(tCityDistribution(li),1)
+				set tRecord.Outlet = ##class(Outlet).%OpenId(tOutletId)
 
-				set tCity = ##class(Outlet).%OpenId(tOutletId)
-				set tRecord.Outlet = tCity
-
+				// test for skipped products
+				if ($IsObject(tRecord.Outlet) && $IsObject(tRecord.Product)) {
+					set tRegionName = tRecord.Outlet.Country.Region.Name
+					set tSKU = tRecord.Product.SKU
+					if ((tRegionName'="")&&(tSKU'="")) {
+						if $D(tSkipProduct(tRegionName,tSKU)) {
+							set tRecord.Product = tDefaultProduct
+						}
+					}
+				}
 			}
 			else {
-				set tCity = tCities($R(tCityCount)+1)
-				set tRecord.Outlet = tCity
-			}
-
-			// test for skipped products
-			if ($IsObject(tRecord.Outlet) && $IsObject(tRecord.Product)) {
-				set tRegionName = tRecord.Outlet.Country.Region.Name
-				set tSKU = tRecord.Product.SKU
-				if ((tRegionName'="")&&(tSKU'="")){
-					if $D(tSkipProduct(tRegionName,tSKU)) {
-                          set tRecord.Product = tDefaultProduct
- 					}
-				}
+				set tRecord.Outlet = tCities($R(tCityCount)+1)
 			}
 
    			set tSC = tRecord.%Save()
@@ -517,7 +506,7 @@ ClassMethod AddProduct(pRecordID As %String, pSKU As %String, pNewName As %Strin
 			quit
 		}
 		// Update cube
-		set tSC = ##class(Cube).%UpdateFacts(pRecordID)
+		set tSC = ##class(%DeepSee.Utils).%SynchronizeCube("HOLEFOODS")
 		if $$$ISERR(tSC) {
 			do $System.Status.DisplayError(tSC)
 			quit
@@ -542,7 +531,7 @@ ClassMethod ChangeMeasure(pRecordID As %String, pUnitsSold As %Integer)
 			quit
 		}
 		// Update cube
-		set tSC = ##class(Cube).%UpdateFacts(pRecordID)
+		set tSC = ##class(%DeepSee.Utils).%SynchronizeCube("HOLEFOODS")
 		if $$$ISERR(tSC) {
 			do $System.Status.DisplayError(tSC)
 			quit
@@ -553,48 +542,7 @@ ClassMethod ChangeMeasure(pRecordID As %String, pUnitsSold As %Integer)
 	}
 }
 
-/// Add a new product and update the cube.
-ClassMethod ChangeCity(pRecordID As %String, pNewCityID As %Integer)
-{
-	set tRecord = ##class(Transaction).%OpenId(pRecordID)
-	if $IsObject(tRecord) {
-		if ($IsObject(tRecord.Outlet)) {
-			set tCity = tRecord.Outlet.City
-		}
-		set tRecord.Outlet = ##class(Outlet).%OpenId(pNewCityID)
-		set tSC = tRecord.%Save()
-		if $$$ISERR(tSC) {
-			do $System.Status.DisplayError(tSC)
-			quit
-		}
-		// Update cube
-		set tSC = ##class(Cube).%UpdateFacts(pRecordID)
-		if $$$ISERR(tSC) {
-			do $System.Status.DisplayError(tSC)
-			quit
-		}
-	}
-	else {
-		write "Record not found: ",pRecordID,!
-	}
-}
 
-/// Purely for demo purposes, this method defines term lists used by this sample.
-ClassMethod SetupTermLists()
-{
-	set name="Region Colors"
-	set uname="REGION COLORS"
-	write "Defining term list ",name,"...",!
-	
-	//cannot assume the following will work from release to release; replace with use of API when available
-	kill ^DeepSee.TermList(uname)
-	set ^DeepSee.TermList(uname,"name")=name
-	set ^DeepSee.TermList(uname,"modDate")=$zdt($h,3)
-	set ^DeepSee.TermList(uname,"data","Asia","VALUE")="Aqua"
-	set ^DeepSee.TermList(uname,"data","Europe","VALUE")="BlueViolet"
-	set ^DeepSee.TermList(uname,"data","N. America","VALUE")="Firebrick"
-	set ^DeepSee.TermList(uname,"data","S. America","VALUE")="Green"
-}
 
 /// Purely for demo purposes, this method defines pivot variables used by this sample.
 ClassMethod SetupVariables()
