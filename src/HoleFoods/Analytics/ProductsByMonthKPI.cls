@@ -6,7 +6,7 @@ Class HoleFoods.Analytics.ProductsByMonthKPI Extends %DeepSee.KPI
     name="HoleFoods/ProductsByMonthKPI"
     sourceType="sql"
     caption="Product Sales By Month"
-    sql="SELECT
+    sql="SELECT TOP 10
     Product->Name AS ProductName,
     SUM(AmountOfSale) AS TotalAmountOfSale
 FROM HoleFoods.SalesTransaction

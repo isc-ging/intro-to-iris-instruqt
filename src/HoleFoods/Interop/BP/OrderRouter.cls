@@ -1,6 +1,7 @@
 Class HoleFoods.Interop.BP.OrderRouter Extends Ens.BusinessProcess
 {
-
+    Property OrderProcessorTarget As %String [InitialExpression="ToOrderProcessor"];
+    Property ToEmail As %String [InitialExpression="ToEmail"];
     Property SyncTarget As %String [InitialExpression=""];
 
     
@@ -10,7 +11,7 @@ Method OnRequest(pRequest As HoleFoods.Interop.Msg.OrderRequest, Output pRespons
 {
     set tSC = $$$OK
 
-    set tSC = ..SendRequestSync("OrderProcessor", pRequest, .tOrderResponse)
+    set tSC = ..SendRequestSync(..ToOrderProcessor, pRequest, .tOrderResponse)
     quit:$$$ISERR(tSC) $$$OK
 
     set result = tOrderResponse.StringValue
@@ -18,7 +19,7 @@ Method OnRequest(pRequest As HoleFoods.Interop.Msg.OrderRequest, Output pRespons
     set emailSent = "0"
 
     if $piece(result, ":", 1) = "OK" {
-        set emailSC = ..SendRequestSync("EmailOperation", pRequest, .tEmailResponse)
+        set emailSC = ..SendRequestSync(..ToEmail, pRequest, .tEmailResponse)
         set emailSent = $select($$$ISOK(emailSC): "1", 1: "0")
     }
 

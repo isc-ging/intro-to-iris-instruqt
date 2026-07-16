@@ -1,4 +1,4 @@
-Class HoleFoods.Interop.BO.EmailOperation Extends Ens.BusinessOperation
+Class HoleFoods.Interop.BO.ToEmail Extends Ens.BusinessOperation
 {
 
 Parameter ADAPTER = "EnsLib.EMail.OutboundAdapter";
