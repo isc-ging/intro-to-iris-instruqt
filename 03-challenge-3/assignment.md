@@ -10,9 +10,9 @@ notes:
 
     InterSystems IRIS is not just a SQL database.
 
-    Like other enterprise databases, it supports server-side logic, but IRIS distinguishes itself by integrating a broader runtime directly into the platform, including ObjectScript and Embedded Python running in the same process as the database engine.
+    Like other enterprise databases, it supports server-side logic, but InterSystems IRIS distinguishes itself by integrating a broader runtime directly into the platform, including ObjectScript and Embedded Python running in the same process as the database engine.
 
-    Executing workflows and procedures inside the platform reduces the need to move data and improves efficiency for data-intensive tasks. This benefit, is one of the many features that makes IRIS such an efficient data platform.
+    Executing workflows and procedures inside the platform reduces the need to move data and improves efficiency for data-intensive tasks. This is one of the many features that makes InterSystems IRIS such an efficient data platform.
 tabs:
 - id: cmjfuvm3hbxl
   title: VS Code
@@ -33,29 +33,25 @@ tabs:
 difficulty: ""
 enhanced_loading: null
 ---
-This is VS Code, a standard Integrated Developer Environment, or fancy code editor for the non-technical. VS Code is the recommended IDE for IRIS, and there are a number of extensions that supercharge the VS Code-IRIS connection.
+This is VS Code, a standard Integrated Development Environment, or fancy code editor for the non-technical. VS Code is the recommended IDE for IRIS, and there are a number of extensions that supercharge the VS Code-IRIS connection.
 
-**From the explorer menu on the left, open the HoleFoods/ProductChanges.cls file.**
+**From the explorer menu on the left, open the HoleFoods/ProductChanges.cls file**
 
-This is an IRIS class. We won't go into detail about the code at the moment, although there are plenty more tutorials available if you would like to find out more. Instead we are going to use the two functions inside the class to demonstrate how to run code in IRIS.
+This is an InterSystems IRIS class. We won't go into detail about the code at the moment, although there are plenty more tutorials available if you would like to find out more. Instead we are going to use the two functions inside the class to demonstrate how to run code in InterSystems IRIS.
 
-**Right click on the file in the explorer panel and click "Import and Compile".**
-
-This will import the class into IRIS, and compile it so we can run the methods. At the moment, the file is defined on a different server, so this is just to import it into IRIS, don't worry too much about it for now.
-
-**Next switch to the [Terminal Tab](tab-2) and run the following command**
+**Switch to the [Terminal Tab](tab-2) and run the following command**
 
 ```objectscript,run
 do ##class(HoleFoods.ProductChanges).PrintProductDetails("SKU-976")
 ```
 
-This function retrives the product details from the database, given by the SKU ID value, and prints the details to the terminal. The method can be seen defined in the file we were looking at in [VS Code](tab-0), and is written in ObjectScript. For proof its it accessing real values in the database the database, try running the data with some a different ID value:
+This function retrieves the product details from the database by SKU ID and prints them to the terminal. The method is defined in the file we were looking at in [VS Code](tab-0) and is written in ObjectScript. To confirm it is reading live data from the database, try running it with a different ID:
 
 ```objectscript,run
 do ##class(HoleFoods.ProductChanges).PrintProductDetails("SKU-199")
 ```
 
-Lets try the other method in the file, which is used to add stock to a product in the database. We've just had a shipment of 100 new bags  of Gummy Rings!
+Let's try the other method in the file, which is used to restock a product in the database. We've just had a shipment of 100 new bags of Gummy Rings!
 **In the terminal, run the following command**
 
 ```objectscript,run
@@ -64,15 +60,15 @@ do ##class(HoleFoods.ProductChanges).Restock("SKU-976", 100)
 
 This function is contained in the same file as the PrintProductDetails function, but is written in a different language! This time we are accessing the data directly with Python.
 
-Since 2022, IRIS has included Python as an embedded language. This innovation means the latency-saving gains of running code next to the data can also be accessed with Python, the most popular programming language in the world.
+Since 2022, InterSystems IRIS has included Python as an embedded language. This innovation means the latency-saving gains of running code next to the data can also be accessed with Python, the most popular programming language in the world.
 
-**Just to double check our price change worked - lets run the first command again:**
+**Just to double-check our restock worked — let's run the first command again:**
 
 ```objectscript,run
 do ##class(HoleFoods.ProductChanges).PrintProductDetails("SKU-976")
 ```
 
-Finally, lets return to the Management Portal to see the change from there.
+Finally, let's return to the Management Portal to see the change from there.
 
 **Open the [IRIS tab](tab-1), then paste the following command into the command box, and click execute**
 
@@ -82,4 +78,4 @@ SELECT SKU, Category, Name, Price, Stock FROM HoleFoods.Product WHERE ID='SKU-97
 
 Yes, we have restocked the Gummy Rings! Here we have seen how we can access the same data using SQL, ObjectScript and Python. This gives us flexibility to read, write and use data from across many different application contexts.
 
-Lets continue to see how we can use InterSystems IRIS to Integrate systems.
+Let's continue to see how we can use InterSystems IRIS to integrate systems.

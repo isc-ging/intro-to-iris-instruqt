@@ -11,7 +11,7 @@ notes:
         - InterSystems IRIS with added healthcare modules
     - **InterSystems Data Studio**
         - Low code data integration system
-    - **HealthShare** family 
+    - **HealthShare** family
         - Healthcare solutions built on InterSystems IRIS for Health, solving specific healthcare problems
     - **TrakCare and IntelliCare**
       - InterSystems' Electronic Healthcare Record systems, running hospitals around the globe
@@ -33,7 +33,7 @@ tabs:
 difficulty: ""
 enhanced_loading: null
 ---
-Woah well done for getting this far! Hopefully this tutorial has given you a clearer idea of some of the key features of InterSystems IRIS. If nothing else, you can now always say you have hands-on Experience with InterSystems IRIS.
+Well done for getting this far! Hopefully this tutorial has given you a clearer idea of some of the key features of InterSystems IRIS. If nothing else, you can now always say you have hands-on experience with InterSystems IRIS.
 
 There are many features that we couldn't fit into this short tutorial, including:
 - AI Integration and Support
@@ -43,8 +43,8 @@ There are many features that we couldn't fit into this short tutorial, including
 
 The Learning never stops! There are plenty more learning materials available from [InterSystems Learning Services](https://www.intersystems.com/education/).
 
-For more Interactive Tutorials and quickstart guides for key topics, visit the [InterSystems Developer hub](developer.intersystems.com).
+For more interactive tutorials and quickstart guides for key topics, visit the [InterSystems Developer Hub](https://developer.intersystems.com).
 
-To discuss, ask questions of, and learn from developers who are using InterSystems products, be sure to join us at the [Developer Community](community.intersystems.com).
+To discuss, ask questions, and learn from developers who are using InterSystems products, be sure to join us at the [Developer Community](https://community.intersystems.com).
 
 To see some great example applications, check out the [Open Exchange](https://openexchange.intersystems.com/), or find the code used throughout this tutorial on [GitHub](https://github.com/isc-ging/intro-to-iris-instruqt).

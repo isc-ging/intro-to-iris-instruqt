@@ -10,7 +10,7 @@ XData ProductionDefinition
   </Item>
   <Item Name="Router" Category="" ClassName="HoleFoods.Interop.BP.OrderRouter" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
   </Item>
-  <Item Name="ToOrderProcessor" Category="" ClassName="HoleFoods.Interop.BO.OrderProcessor" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
+  <Item Name="ToOrderProcessor" Category="" ClassName="HoleFoods.Interop.BO.ToOrderProcessor" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
   </Item>
 
 </Production>
