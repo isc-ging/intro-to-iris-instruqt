@@ -76,6 +76,6 @@ Finally, let's return to the Management Portal to see the change from there.
 SELECT SKU, Category, Name, Price, Stock FROM HoleFoods.Product WHERE ID='SKU-976'
 ```
 
-Yes, we have restocked the Gummy Rings! Here we have seen how we can access the same data using SQL, ObjectScript and Python. This gives us flexibility to read, write and use data from across many different application contexts.
+We have restocked the Gummy Rings! Here we have seen how we can access the same data using SQL, ObjectScript and Python. This gives us flexibility to read, write and use data from across many different application contexts.
 
 Let's continue to see how we can use InterSystems IRIS to integrate systems.

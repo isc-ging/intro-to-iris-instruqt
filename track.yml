@@ -1,6 +1,6 @@
 slug: intro-to-iris
 id: nc1fzutwzscb
-title: Intro To IRIS WIP
+title: Intro To IRIS
 description: ""
 icon: ""
 tags: []
@@ -32,5 +32,5 @@ lab_config:
   - Greasing the business service...
   - Warming up interoperability routing...
   hideStopButton: false
-checksum: "2435185864357023618"
+checksum: "16036995442969090677"
 enhanced_loading: false

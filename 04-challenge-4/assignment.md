@@ -34,7 +34,7 @@ tabs:
 difficulty: ""
 enhanced_loading: null
 ---
-HoleFoods is opening an online shop! We just restocked the Gummy Rings, lets make sure we sell some of these. 
+HoleFoods is opening an online shop! We just restocked the Gummy Rings, lets make sure we sell some of these.
 
 We've already created a web page to send orders, a REST API to receive data from the web page, and an InterSystems IRIS Interoperability Production to ensure the data can be traced and routed through the right processes.
 
@@ -64,7 +64,7 @@ In our example, our production receives an order request and sends it to the **T
 
 Let's add another component to send the customer a confirmation email. Hit "Create" to add a new component, and choose "Outbound Host" from the dropdown.
 
-![alt text](..\assets\CreateButton.png)
+![The Create button in the Interoperability Portal toolbar](..\assets\CreateButton.png)
 
 To configure this, select:
   - Outbound Type = `General`
@@ -76,7 +76,7 @@ When you are finished, click **Create**.
 
 Afterwards click on the new `ToEmail` Host, then click `Start Host`
 
-![alt text](..\assets\StartHost.png)
+![The Start Host button in the host configuration panel](..\assets\StartHost.png)
 
 # Trying the Production Again
 

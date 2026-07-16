@@ -47,7 +47,7 @@ ClassMethod PlaceOrder() As %Status
         set msg = ##class(Ens.StringRequest).%New()
         set msg.StringValue = rawJSON
 
-        set tSC = ##class(Ens.Director).CreateBusinessService("OrderService", .svc)
+        set tSC = ##class(Ens.Director).CreateBusinessService("FromWeb", .svc)
         if $$$ISERR(tSC) {
             write "{""status"":""error"",""message"":""Service unavailable""}"
             quit

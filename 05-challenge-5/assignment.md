@@ -31,11 +31,6 @@ tabs:
   hostname: iris
   path: /csp/user/quiz.html
   port: 52773
-- id: 1gs0hsnwu606
-  title: bash
-  type: terminal
-  hostname: iris
-  cmd: /bin/bash
 difficulty: ""
 enhanced_loading: null
 ---
@@ -55,7 +50,7 @@ This demonstrates an important capability of InterSystems IRIS: transactions and
 Direct SQL is useful when we want fast access to operational data or already know the questions that the application needs to answer. However, InterSystems IRIS also supports richer analytical models through InterSystems IRIS Business Intelligence. IRIS BI models organise data into reusable measures and dimensions. For example, sales could be analysed by product, shop, customer or time period, while measures could include revenue, order quantity and average order value. Users can then apply filters, create pivot tables and drill from a high-level total into the records behind it.
 
 Let's take a look at our second dashboard. Click the "HoleFoods" link at the top of the page to see our other Dashboards, then open the Exploratory Dashboard.
-![alt text](..\assets\HoleFoodsButtonHint.png)
+![The HoleFoods link at the top of the dashboard page for navigating to other dashboards](..\assets\HoleFoodsButtonHint.png)
 
 This dashboard example is built upon analytics Cubes and Pivot tables, which means the data is not updated instantly — the cube needs to be rebuilt first. It does however allow more complex data models to be built. Let's see this in action.
 
@@ -70,7 +65,7 @@ Click the _Back_ button above the chart twice to return to the regional view.
 
 Let's also filter by Category from the menu in the far right of the Screen:
 
-![alt text](..\assets\CategoryFilter.png)
+![The Category filter menu on the right side of the Exploratory Dashboard](..\assets\CategoryFilter.png)
 
 Choose a category and see how this affects the plot.
 
