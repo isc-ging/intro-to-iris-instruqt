@@ -1,17 +1,17 @@
 Class HoleFoods.Interop.BP.OrderRouter Extends Ens.BusinessProcess
 {
     Property OrderProcessorTarget As %String [InitialExpression="ToOrderProcessor"];
-    Property ToEmail As %String [InitialExpression="ToEmail"];
+    Property ToEmailTarget As %String [InitialExpression="ToEmail"];
     Property SyncTarget As %String [InitialExpression=""];
 
     
-    Parameter SETTINGS = "SyncTarget:SyncTarget";
+    Parameter SETTINGS = "SyncTarget,ToEmailTarget,OrderProcessorTarget";
 
 Method OnRequest(pRequest As HoleFoods.Interop.Msg.OrderRequest, Output pResponse As Ens.StringResponse) As %Status
 {
     set tSC = $$$OK
 
-    set tSC = ..SendRequestSync(..ToOrderProcessor, pRequest, .tOrderResponse)
+    set tSC = ..SendRequestSync(..OrderProcessorTarget, pRequest, .tOrderResponse)
     quit:$$$ISERR(tSC) $$$OK
 
     set result = tOrderResponse.StringValue
@@ -19,7 +19,7 @@ Method OnRequest(pRequest As HoleFoods.Interop.Msg.OrderRequest, Output pRespons
     set emailSent = "0"
 
     if $piece(result, ":", 1) = "OK" {
-        set emailSC = ..SendRequestSync(..ToEmail, pRequest, .tEmailResponse)
+        set emailSC = ..SendRequestSync(..ToEmailTarget, pRequest, .tEmailResponse)
         set emailSent = $select($$$ISOK(emailSC): "1", 1: "0")
     }
 
@@ -40,6 +40,15 @@ Storage Default
 <Subscript>"OrderRouter"</Subscript>
 <Value name="1">
 <Value>SyncTarget</Value>
+</Value>
+<Value name="2">
+<Value>OrderProcessorTarget</Value>
+</Value>
+<Value name="3">
+<Value>ToEmail</Value>
+</Value>
+<Value name="4">
+<Value>ToEmailTarget</Value>
 </Value>
 </Data>
 <DefaultData>OrderRouterDefaultData</DefaultData>
