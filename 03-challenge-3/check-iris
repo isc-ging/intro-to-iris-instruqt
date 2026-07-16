@@ -1,35 +1,20 @@
 #!/bin/bash
 
 exec > >(tee /tmp/check-challenge-3.log) 2>&1
-set -euxo pipefail
+set -uxo pipefail
 
-# Check if SKU-976 price has been changed to 1.99
-cat > /tmp/check-price.cos <<'EOF'
-set stmt=##class(%SQL.Statement).%New()
-set status=stmt.%Prepare("SELECT Price FROM HoleFoods.Product WHERE SKU=?")
-set rs=stmt.%Execute("SKU-976")
-if rs.%Next() write rs.Price
-if 'rs.%Next() write "NOT_FOUND"
+
+su - irisowner <<'EOSU'
+cat <<'EOF' | iris session iris -UUSER
+
+set sql = "SELECT ID FROM HoleFoods.Product WHERE SKU='SKU-976' AND Stock=300"
+set msg = "Have you restocked the Gummy Rings?"
+do ##class(%zInstruqt.CheckExtras).CheckSQLReturnsResults(sql, msg, .errors)
+do ##class(%zInstruqt.Check).Failure(.errors)
 halt
 EOF
+EOSU
 
-RESULT=$(su - irisowner -c "iris session IRIS -U USER < /tmp/check-price.cos" 2>/dev/null | grep -v "^USER>" | grep -v "Node:" | grep -v "^$" | tail -1)
+EXIT=$?
 
-# Trim whitespace
-RESULT=$(echo "${RESULT}" | tr -d '\r\n' | xargs)
-
-if [ "${RESULT}" = "NOT_FOUND" ]; then
-  fail-message "SKU-976 was not found in the database. This product should have been added in Challenge 2."
-  exit 1
-fi
-
-# Check if price is 1.99
-PRICE_NUMERIC=$(echo "${RESULT}" | awk '{printf "%.2f", $1}')
-
-if [ "${PRICE_NUMERIC}" != "1.99" ]; then
-  fail-message "SKU-976 price is ${PRICE_NUMERIC}, but should be 1.99. Please run the ChangeProductPrice method to update the price."
-  exit 1
-fi
-
-# Success - price has been changed
-exit 0
+exit $EXIT

@@ -20,6 +20,20 @@ notes:
     And many more great features.
 
     **All built within a secure, controlled environment designed for the worlds most important applications**.
+
+    > **Click to Continue >** 
+
+- type: text
+  contents: |
+    IRIS is an acronym:
+
+    Intuitive 
+    Reliable 
+    Interoperability
+    Scalable
+    
+    
+
 tabs:
 - id: 5g0s5v617m0s
   title: IRIS
@@ -34,6 +48,8 @@ tabs:
 difficulty: ""
 enhanced_loading: null
 ---
-Welcome to the Management Portal, this is the user interface for interacting with IRIS. This initial menu doesn't give a lot away, but you can see that there is a portal for analytics, an interoperability portal, this is the system integration system, and various other operations, adminstrative tasks and things to explore.
+Welcome to the Management Portal, this is the user interface for interacting with IRIS.
+
+The menu doesn't give a huge amount away, but you should see that there is a portal for analytics, an interoperability portal for system integration system, and various other operations, adminstrative tasks and things to explore.
 
 Feel free to click around in and see what you can find. When you are ready, click Next to continue the tour.

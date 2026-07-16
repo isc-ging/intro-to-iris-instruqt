@@ -17,7 +17,7 @@ tabs:
   title: IRIS
   type: service
   hostname: iris
-  path: /csp/user/_DeepSee.UserPortal.DashboardViewer.zen?DASHBOARD=HoleFoods/SalesDash.dashboard
+  path: /dsw/index.html#/USER/HoleFoods/SalesDash.dashboard
   port: 52773
 - id: ng7utkii6ieo
   title: Shop
@@ -25,13 +25,26 @@ tabs:
   hostname: iris
   path: /csp/user/order.html
   port: 52773
+- id: eeqwk2aoursi
+  title: Quiz
+  type: service
+  hostname: iris
+  path: /csp/user/quiz.html
+  port: 52773
+- id: 1gs0hsnwu606
+  title: bash
+  type: terminal
+  hostname: iris
+  cmd: /bin/bash
 difficulty: ""
 enhanced_loading: null
 ---
 # A live dashboard
 Welcome to an IRIS BI dashboard. The charts and tables provide a look at our shops' sales. These are all based on queries against our dataset which have been configured to refresh every 5s. This ensures our dashboard is truly real time and up-to-date.
 
-Lets see this in action. Make a note of the current top product, and how the wekekly revenue is looking. Now lets return to our [Orders tab](tab-1) and submit another order. How about 50 units of Gummy Rings; that should make a dent in our weekly target!
+Lets see this in action. **Make a note of the current top product, and how the weekly revenue is looking.**
+
+**Now lets return to our [Orders tab](tab-1) and submit another order**. How about 100 units of Gummy Rings; that should make a pretty visible dent in our weekly revenue!
 
 Submit the order, and return to the Analytics dashboard. You might need to wait a couple of seconds before the next refresh, but you should see our Gummy rings move right up the leaderboard of top products!
 
@@ -41,19 +54,21 @@ This demonstrates an important capability of InterSystems IRIS: transactions and
 
 Direct SQL is useful when we want fast access to operational data or already know the questions that the application needs to answer. However, IRIS also supports richer analytical models through InterSystems IRIS Business Intelligence. IRIS BI models organise data into reusable measures and dimensions. For example, sales could be analysed by product, shop, customer or time period, while measures could include revenue, order quantity and average order value. Users can then apply filters, create pivot tables and drill from a high-level total into the records behind it.
 
-Let's take a look at our second dashboard. Click the Home link at the top of the page to return to the user dashboard, then open the Exploritory data dashboard.
+Let's take a look at our second dashboard. Click the "HoleFoods" link at the top of the page to see our other Dashboards, then open the Exploratory Dashboard.
+![alt text](..\assets\HoleFoodsButtonHint.png)
 
 This dashboard example is build upon analytics Cubes and Pivot tables, which means the data is less immediately provided as the cube needs to be re-built for the data to be updated. It does however mean more complex data models can be built. Lets see this in action.
 
-Our top chart is a chart of Sale by Region. Click on any of the bars, and then click the `Drill Down` button.
+Our top chart is a chart of Sale by Region.
 
-![alt text](..\assets\DrillDownButton.png)
+**Click on Any of the Continent labels below the bars**
 
-You should see the chart go from Sales by Region, to Sales by Country. Repeat this by clicking on another bar and pressing the down arrow again. You will now see the Sales by City. Pretty neat right?
 
-Click the Up arrow to return to the regional sales.
+You should see the chart go from Sales by Region, to Sales by Country within that region. Repeat this by clicking on one of the country labels. You will now see the Sales by City. Pretty neat right?
 
-Let's also filter by Category from the menu in the far left of the Screen:
+Click _back_ at the top of the page twice to return to the country view.
+
+Let's also filter by Category from the menu in the far right of the Screen:
 
 ![alt text](..\assets\CategoryFilter.png)
 
@@ -63,12 +78,14 @@ Choose a category and see how this affects the plot.
 
 Now we're going to make this into a challenge!
 
-You're task is to work out **how many Units of Pasta was sold in Rome, Italy (Europe)**. It might help if you change to the table view using this button:
+You're task is to work out **how many Units of Pasta was sold in Rome, Italy (Europe)**.
 
-![alt text](..\assets\TableViewButton.png)
+
+When you think you have the right answer, **switch to the [Quiz tab](tab-2) to see if you are right!**
 
 # Conclusions
 
-As mentioned in the introduction, IRIS BI is far from the only analytics tool available. There are also integrations with other major Business Analytics providers, and advanced tools for further use-cases.
+Let's recap. Here we have seen how IRIS BI has built in analytics tools to explore and visualise data. These tools can allow quick access to Key Perfomance Indicators through SQL, or more sophisticated analysis through user-defined analytical data-models.
 
+And if you'd prefer to use the tools you know? You can always connect external tools to InterSystems IRIS as well.
 

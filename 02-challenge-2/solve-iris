@@ -11,7 +11,7 @@ set rs=stmt.%Execute("SKU-976")
 do rs.%Next()
 if rs.cnt = 0 set stmt2=##class(%SQL.Statement).%New()
 if rs.cnt = 0 set status=stmt2.%Prepare("INSERT INTO HoleFoods.Product (Category, Name, Price, SKU) VALUES (?, ?, ?, ?)")
-if rs.cnt = 0 set status=stmt2.%Execute("Snack", "Gummy Rings", 2.99, "SKU-976")
+if rs.cnt = 0 set status=stmt2.%Execute("Snack", "Gummy Rings", 2.99, "SKU-976", 2200)
 if rs.cnt = 0 write "Product inserted successfully"
 if rs.cnt '= 0 write "Product already exists"
 halt

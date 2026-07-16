@@ -1,4 +1,4 @@
-Class HoleFoods.Interop.BO.OrderProcessor Extends Ens.BusinessOperation
+Class HoleFoods.Interop.BO.ToOrderProcessor Extends Ens.BusinessOperation
 {
 
 Method OnMessage(pRequest As HoleFoods.Interop.Msg.OrderRequest, Output pResponse As Ens.StringResponse) As %Status

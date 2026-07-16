@@ -3,27 +3,4 @@
 exec > >(tee /tmp/solve-challenge-4.log) 2>&1
 set -euxo pipefail
 
-# Ensure SKU-976 exists with stock
-cat > /tmp/solve-stock.cos <<'EOF'
-set stmt=##class(%SQL.Statement).%New()
-set status=stmt.%Prepare("SELECT COUNT(*) AS cnt FROM HoleFoods.Product WHERE SKU=?")
-set rs=stmt.%Execute("SKU-976")
-do rs.%Next()
-if rs.cnt = 0 set status=##class(%SQL.Statement).%New().%Prepare("INSERT INTO HoleFoods.Product (Category, Name, Price, SKU, Stock) VALUES (?, ?, ?, ?, ?)").%Execute("Snack", "Gummy Rings", 1.99, "SKU-976", 100)
-if rs.cnt = 0 write "Product inserted with stock", !
-halt
-EOF
 
-su - irisowner -c "iris session IRIS -U USER < /tmp/solve-stock.cos" 2>/dev/null
-
-# Submit an order via the REST API
-# The endpoint should be POST /api/holeFoods/order based on the introp_plan.md
-ORDER_RESPONSE=$(curl --silent --location "http://localhost:52773/api/holeFoods/order" \
-  --user "SuperUser:SYS" \
-  --header "Content-Type: application/json" \
-  --data '{"SKU": "SKU-976", "Quantity": 1}')
-
-# Check if order was successful
-echo "Order submitted: ${ORDER_RESPONSE}"
-
-exit 0

@@ -6,64 +6,23 @@ set -euxo pipefail
 exec > >(tee /tmp/setup-challenge-1.log) 2>&1
 
 apt-get update && apt-get install -y curl
-MAILPIT_VERSION="v1.27.7"
-
-ARCH="$(uname -m)"
-
-case "$ARCH" in
-    x86_64) FILE="mailpit-linux-amd64.tar.gz" ;;
-    aarch64|arm64) FILE="mailpit-linux-arm64.tar.gz" ;;
-    *)
-        echo "Unsupported architecture: $ARCH"
-        exit 1
-        ;;
-esac
-
-curl -fsSL \
-    "https://github.com/axllent/mailpit/releases/download/${MAILPIT_VERSION}/${FILE}" \
-    -o /tmp/mailpit.tar.gz
-
-tar -xzf /tmp/mailpit.tar.gz -C /usr/local/bin
-chmod +x /usr/local/bin/mailpit
 
 
-nohup mailpit \
-  --listen 0.0.0.0:8025 \
-  --smtp 0.0.0.0:1025 \
-  > /var/log/mailpit.log 2>&1 &
-
-sleep 2
-
-pgrep -a mailpit || {
-  echo "Mailpit failed to stay running"
-  cat /var/log/mailpit.log
-  exit 1
-}
-
-
+## If is activated in Instruqt
+## else is activated Locally 
+## This ensures the same container setup is created for both. it works fine for both 
 if [ ! -d "/home/irisowner/intro-to-iris-instruqt" ]; then
 	apt-get update && apt-get install -y git
 	cd /home/irisowner
 	ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 	git clone https://www.github.com/isc-ging/intro-to-iris-instruqt
+
+else 
+  /home/irisowner/intro-to-iris-instruqt/sandbox-setup.sh
 fi
 
 
 su - irisowner <<'EOSU'
-
-cat <<'EOF' | iris session iris -U%SYS
-do ##class(Security.Users).UnExpireUserPasswords("*")
-do ##class(Security.Users).Create("tech","%ALL","demo")
-do ##class(Security.Users).AddRoles("UnknownUser","%ALL")
-set rs= ##class(Security.Applications).ListFunc("/csp/*")
-set p("AutheEnabled")=64, p("UseCookies") = 1
-while rs.%Next() { do ##class(Security.Applications).Modify(rs.Name,.p) }
-do ##class(%SYSTEM.OBJ).Load("/tmp/Instruqt.Check.cls","ck")
-do ##class(%SYSTEM.OBJ).Load("/tmp/zstart.mac","ck")
-do ##class(%zInstruqt.Check).HideSQLPane()
-
-halt
-EOF
 
 
 cat <<'EOF' | iris session iris -UUSER
@@ -73,4 +32,58 @@ do ##class(HoleFoods.Utils).Setup()
 halt
 EOF
 
+
+
+cat > /tmp/CheckExtras.cls << EOF 
+
+Class %zInstruqt.CheckExtras
+{
+
+ClassMethod CheckSQLReturnsResults(sql As %String, failureMsg As %String, ByRef errors)
+{
+  Set tRes = ##class(%SQL.Statement).%ExecDirect(,sql)
+  Set hasRow = tRes.%Next()
+  
+  If 'hasRow {
+    write failureMsg,!
+    do ##class(%zInstruqt.Check).AddError(.errors, failureMsg)
+  }
+}
+
+ClassMethod CheckComponentFunctioning(component As %String, ByRef errors){
+  
+  Set enabled = ##class(Ens.Director).IsItemEnabled(component, .status)
+  set failureMsg = ""
+  if $$$ISERR(status){
+    set failureMsg = "Have you add the "_component_" to the production?"
+  } elseif 'enabled{ 
+    set failureMsg = "Have you ensured the "_component_" component is running?"
+  }
+  
+  if failureMsg '= ""{
+    write failureMsg,!
+    do ##class(%zInstruqt.Check).AddError(.errors, failureMsg)
+  }
+
+}
+}
+
+
+
+EOF
+
+
+cat <<'EOF' | iris session iris -UUSER
+
+do ##class(%SYSTEM.OBJ).Load("/tmp/CheckExtras.cls", "cuk")
+s version="latest" s r=##class(%Net.HttpRequest).%New(),r.Server="pm.community.intersystems.com",r.SSLConfiguration="ISC.FeatureTracker.SSL.Config" d r.Get("/packages/zpm/"_version_"/installer"),$system.OBJ.LoadStream(r.HttpResponse.Data,"c")
+zpm
+repo -r -n registry -url https://pm.community.intersystems.com/ -user "" -pass ""
+exit
+halt
+EOF
+
+
 EOSU
+
+

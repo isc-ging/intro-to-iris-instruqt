@@ -46,7 +46,7 @@ FROM HoleFoods.Product
 
 **Then click Execute**
 
-You'll see a table of products from our fictional retailer of foods with Holes in them.
+You'll see a table of products from our fictional retailer of foods with holes in them.
 
 The *relational* part of the name, refers to the tables being related to each other, meaning the data in one table might reference data from another table. Lets take a look at our table of transactions:
 
@@ -54,7 +54,7 @@ The *relational* part of the name, refers to the tables being related to each ot
 
 ```sql
 SELECT
- AmountOfSale, DateTimeOfSale, Product,  UnitsSold
+AmountOfSale, DateTimeOfSale, Product,  UnitsSold
 FROM HoleFoods.SalesTransaction
 ```
 
@@ -64,7 +64,7 @@ We can see the transaction details the Product ID (SKU) sold. In IRIS it is very
 
 ```sql
 SELECT
-AmountOfSale, DateOfSale, Product->Name,  UnitsSold
+AmountOfSale, DateTimeOfSale, Product->Name,  UnitsSold
 FROM HoleFoods.SalesTransaction
 ```
 This command uses `->` to implicitly join the Transactions and Products table to fetch the product name.
@@ -81,7 +81,7 @@ Before moving on from the Relational Table view, lets add one new product to the
 INSERT INTO HoleFoods.Product
 (Category, Name, Price, SKU, Stock)
 VALUES
-('Snack', 'Gummy Rings', 2.99, 'SKU-976', 120)
+('Snack', 'Gummy Rings', 2.99, 'SKU-976', 200)
 ```
 
 **And just to double check its been added, run:**
@@ -91,3 +91,7 @@ SELECT
 SKU, Category, Name, Price, Stock
 FROM HoleFoods.Product
 ```
+
+And there we can see our new product at the end of the list!
+
+Here we have run SQL from the Management Portal, but you can also run it from all the normal places including from applications written in Python, Java, C++ and more. You can connect with industry standard ODBC and JDBC meaning you can find a way to integrate IRIS with pretty much any existing application.

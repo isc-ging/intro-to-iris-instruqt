@@ -1,15 +1,77 @@
 #!/bin/bash
 
 set -euo pipefail
+exec > >(tee /tmp/setup-challenge-4.log) 2>&1
+su - irisowner <<'EOSU'
+
+cat << 'EOF' > /tmp/UpdatedProduction.cls
+Class HoleFoods.Interop.Production Extends Ens.Production
+{
+
+XData ProductionDefinition
+{
+<Production Name="HoleFoods.Interop.Production" LogGeneralTraceEvents="false">
+  <Description>Order processing with email confirmation</Description>
+  <ActorPoolSize>2</ActorPoolSize>
+  <Item Name="OrderService" Category="" ClassName="HoleFoods.Interop.BS.OrderService" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
+  </Item>
+  <Item Name="Router" Category="" ClassName="HoleFoods.Interop.BP.OrderRouter" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
+    <Setting Target="Host" Name="SyncTarget">HoleFoods.Interop.BO.SyncCube</Setting>
+  </Item>
+  <Item Name="OrderProcessor" Category="" ClassName="HoleFoods.Interop.BO.OrderProcessor" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
+  </Item>
+  <Item Name="EmailOperation" Category="" ClassName="HoleFoods.Interop.BO.EmailOperation" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Adapter" Name="SMTPServer">mailpit</Setting>
+    <Setting Target="Adapter" Name="SMTPPort">1025</Setting>
+  </Item>
+  <Item Name="HoleFoods.Interop.BO.SyncCube" Category="" ClassName="HoleFoods.Interop.BO.SyncCube" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+  </Item>
+</Production>
+}
+
+}
+
+EOF
+
+cat << SYNC > /tmp/SyncCube.cls
+Class HoleFoods.Interop.BO.SyncCube Extends Ens.BusinessOperation
+{
+    Method OnMessage(pInput As Ens.Request) As %Status
+    {
+        Set sc = $$$OK
+        
+        set sc = ##class(%DeepSee.Utils).%SynchronizeCube("HoleFoodsSales", 1, .facts)
+
+        Return sc
+    }
+
+}
+SYNC
 
 iris session IRIS -U USER <<'EOSQL'
 do $system.OBJ.Import("/home/irisowner/intro-to-iris-instruqt/src/HoleFoods/Analytics","cuk")
-EOSQL
+do $system.OBJ.Import("/tmp/UpdatedProduction.cls", "cuk")
+do $system.OBJ.Import("/tmp/SyncCube.cls", "cuk")
+do ##class(Ens.Director).RestartProduction(10, 1)
 
-iris session IRIS -U USER <<'EOSQL'
-set sc = ##class(HoleFoods.Analytics.Setup).Run()
-if $$$ISERR(sc) { do $system.Status.DisplayError(sc) halt }
+set sc = ##class(%DeepSee.Utils).%SynchronizeCube("HoleFoodsSales", 1, .facts)
+
+zpm "install MDX2JSON"
+zpm "install dsw"
+
 halt
 EOSQL
+
+cat <<'EOF' | iris session iris -U%SYS
+set p("AutheEnabled")=8288
+do ##class(Security.Applications).Modify("/dsw",.p)
+EOF
+
+
+
+
+
+
+EOSU
 
 echo "Challenge 5 setup complete."

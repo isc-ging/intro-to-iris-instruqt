@@ -1,0 +1,41 @@
+#!/bin/bash
+
+set -euxo pipefail
+
+
+exec > >(tee /tmp/setup-challenge-2.log) 2>&1
+
+MAILPIT_VERSION="v1.27.7"
+
+ARCH="$(uname -m)"
+
+case "$ARCH" in
+    x86_64) FILE="mailpit-linux-amd64.tar.gz" ;;
+    aarch64|arm64) FILE="mailpit-linux-arm64.tar.gz" ;;
+    *)
+        echo "Unsupported architecture: $ARCH"
+        exit 1
+        ;;
+esac
+
+
+curl -fsSL \
+    "https://github.com/axllent/mailpit/releases/download/${MAILPIT_VERSION}/${FILE}" \
+    -o /tmp/mailpit.tar.gz
+
+tar -xzf /tmp/mailpit.tar.gz -C /usr/local/bin
+chmod +x /usr/local/bin/mailpit
+
+
+nohup mailpit \
+  --listen 0.0.0.0:8025 \
+  --smtp 0.0.0.0:1025 \
+  > /var/log/mailpit.log 2>&1 &
+
+sleep 2
+
+pgrep -a mailpit || {
+  echo "Mailpit failed to stay running"
+  cat /var/log/mailpit.log
+  exit 1
+}

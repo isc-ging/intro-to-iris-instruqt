@@ -34,9 +34,11 @@ tabs:
 difficulty: ""
 enhanced_loading: null
 ---
-HoleFoods is opening an online shop! We've already created a nice web page to send orders, and, because we are using InterSystems IRIS, an interoperability production. At the start, this production is just going to be a way to log downstream event which happens when an order is sent.
+HoleFoods is opening an online shop! We've already created a nice web page to send orders, a REST API to recieve data from the webpage, and an InterSystems IRIS Interoperability to ensure the data can be traced and routed through the right processes.
 
-Lets start by submitting an order. **In the [Shop](tab-0), find the Gummy Rings and hit "Submit Order".**
+Lets start by submitting an order. 
+
+**In the [Shop](tab-0), find the Gummy Rings, choose a Delivery Location and hit "Submit Order".**
 
 And we get redirected to a thank you page. Seems pretty standard. Let's take a look at the back-end
 
@@ -50,11 +52,13 @@ If you don't see this, or if it has only half loaded, hit the refresh button in 
 ![Refresh Button](..\assets\RefreshButton.png)
 
 We have three business host, these are reusable and configurable components that perform a task.
-- **Inbound host**s manage a connection to an incoming system — for example a web-form being submitted, an email arriving in an inbox, a new file being placed in a watched directory.
+- **Inbound host**s manage a connection to an incoming system — for example a web-form being submitted, an email arriving in an inbox or new file being placed in a watched directory.
 - **Process Hosts** handle logic-based message routing.
 - **Outbound hosts** handle any results or outbound calls to another systems, for example writing to a database, querying an external API or database, or sending alerts.
 
-In our example, our production recieves an order request, and sends it to the OrderProcessor function which handles the updating of the database and organisation of the shipment.
+These components can be created from a library of pre-built connectors and added to the UI, or the components can be custom-built in ObjectScript or Python.
+
+In our example, our production recieves an order request and sends it to the OrderProcessor function which handles the updating of the database and organisation of the shipment.
 
 Lets add another component to send the customer a confirmation email. Hit "Create" to add a new component, and choose "Outbound Host" from the dropdown.
 
@@ -62,8 +66,8 @@ Lets add another component to send the customer a confirmation email. Hit "Creat
 
 To configure this, select:
   - Outbound Type = `General`
-  - Outbound Class = `HoleFoods.Interop.BO.EmailOperation` (Scroll to the bottom of the list)
-  - Name = `EmailOperation`
+  - Outbound Class = `HoleFoods.Interop.BO.ToEmail` (Scroll to the bottom of the list)
+  - Name = `ToEmail`
   - Tick the "Enable Now" checkbox
 
 When you are finished, click **Create**.
@@ -74,7 +78,7 @@ Afterwards click on the new `EmailOperation` Host, then click `Start Host`
 
 Lets see if out new component works.
 
-**Return to the [Shop](tab-1) tab, and submit another order for some more Gummy Rings.** This time, the thank you page should say that it has sent you an email. Lets check that this is true.
+**Return to the [Shop](tab-0) tab, and submit another order for some more Gummy Rings.** This time, the thank you page should say that it has sent you an email. Lets check that this is true.
 
 **Open the [Mail tab](tab-2).** You will see an email inbox. Hopefully, you should see a new message in the inbox, open it up and take a look at the order confirmation.
 

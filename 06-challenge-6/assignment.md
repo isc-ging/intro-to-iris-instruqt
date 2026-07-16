@@ -6,15 +6,17 @@ title: Well Done
 notes:
 - type: text
   contents: |-
-    IRIS is at the core of other InterSystems products, including:
-    - **IRIS for Health**
-        - IRIS with added healthcare modules
+    InterSystems IRIS is at the core of other InterSystems products, including:
+    - **InterSystems IRIS for Health**
+        - InterSystems IRIS with added healthcare modules
     - **InterSystems Data Studio**
         - Low code data integration system
-    - **HealthShare** family of proucts
-        - Healthcare solutions built on IRIS for Health, solving specific healthcare problems
+    - **HealthShare** family 
+        - Healthcare solutions built on InterSystems IRIS for Health, solving specific healthcare problems
     - **TrakCare and IntelliCare**
       - InterSystems' Electronic Healthcare Record systems, running hospitals around the globe
+    - **Supply Chain Orchestrator**
+      - InterSystems IRIS with Supply Chain specific extensions
 tabs:
 - id: jgp5a3dmkw12
   title: IRIS
@@ -31,16 +33,18 @@ tabs:
 difficulty: ""
 enhanced_loading: null
 ---
+Woah well done for getting this far! Hopefully this tutorial has given you a clearer idea of some of the key features of InterSystems IRIS. If nothing else, you can now always say you have hands-on Experience with InterSystems IRIS.
 
+There are many features that we couldn't fit into this short tutorial, including:
+- AI Integration and Support
+- Vector Search
+- Machine Learning integrated into SQL
+- Extensive support for Healthcare data, including FHIR Servers (Available in InterSystems IRIS for Health)
 
+The Learning never stops! There are plenty more learning materials available from [InterSystems Learning Services](https://www.intersystems.com/education/).
 
-Join us at the [Developer Community](https://community.intersystems.com/) to learn more
+For more Interactive Tutorials and quickstart guides for key topics, visit the [InterSystems Developer hub](developer.intersystems.com).
 
-Feel free to play around with sandbox, or check out some of our other tutorials:
+To discuss, ask questions of, and learn from developers who are using InterSystems products, be sure to join us at the [Developer Community](community.intersystems.com).
 
-- [Data Models of IRIS](https://play.instruqt.com/embed/intersystems/tracks/quickstart?token=em_DzT96hG3anblDBdY)
-- [InterSystems Data Studio](https://play.instruqt.com/embed/intersystems/tracks/intro-to-ids?token=em_HjxMDglj-1Yi8clV)
-- [IRIS For Health Interoperability](https://play.instruqt.com/embed/intersystems/tracks/iris-for-health?token=em_IEo0iBDc0fgagpas)
-- [REST and Angular](https://play.instruqt.com/embed/intersystems/tracks/rest-angular?token=em__YNemOaCLyBswRCM)
-
-And [loads more](https://developer.intersystems.com/iris-tutorials-for-developers/)!
+To see some great example applications, check out the [Open Exchange](https://openexchange.intersystems.com/), or find the code used throughout this tutorial on [GitHub](https://github.com/isc-ging/intro-to-iris-instruqt).

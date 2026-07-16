@@ -2,7 +2,7 @@
     "objectscript.conn": {
         "server": "52773",
         "ns": "USER",
-        "active": false
+        "active": true
     },
     "intersystems.servers": {
         "52773": {
@@ -14,5 +14,25 @@
             "username": "_SYSTEM",
             "password":"SYS"
         }
-    }
+    },
+    "workbench.colorCustomizations": {
+        "activityBar.activeBackground": "#006d53",
+        "activityBar.background": "#006d53",
+        "activityBar.foreground": "#e7e7e7",
+        "activityBar.inactiveForeground": "#e7e7e799",
+        "activityBarBadge.background": "#d960ff",
+        "activityBarBadge.foreground": "#15202b",
+        "commandCenter.border": "#e7e7e799",
+        "sash.hoverBorder": "#006d53",
+        "statusBar.background": "#003a2c",
+        "statusBar.foreground": "#e7e7e7",
+        "statusBarItem.hoverBackground": "#006d53",
+        "statusBarItem.remoteBackground": "#003a2c",
+        "statusBarItem.remoteForeground": "#e7e7e7",
+        "titleBar.activeBackground": "#003a2c",
+        "titleBar.activeForeground": "#e7e7e7",
+        "titleBar.inactiveBackground": "#003a2c99",
+        "titleBar.inactiveForeground": "#e7e7e799"
+    },
+    "peacock.color": "#003a2c"
 }

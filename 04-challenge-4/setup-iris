@@ -25,3 +25,4 @@ EOSU
 cp /home/irisowner/intro-to-iris-instruqt/src/order.html          /usr/irissys/csp/user/order.html
 cp /home/irisowner/intro-to-iris-instruqt/src/thankyou.html       /usr/irissys/csp/user/thankyou.html
 cp /home/irisowner/intro-to-iris-instruqt/src/thankyou-noemail.html /usr/irissys/csp/user/thankyou-noemail.html
+cp /home/irisowner/intro-to-iris-instruqt/src/quiz.html     /usr/irissys/csp/user/quiz.html
