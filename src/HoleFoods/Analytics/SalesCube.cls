@@ -5,7 +5,7 @@ Class HoleFoods.Analytics.SalesCube Extends %DeepSee.CubeDefinition [ DependsOn 
 /// Cube definition from Architect.
 XData Cube [ XMLNamespace = "http://www.intersystems.com/deepsee" ]
 {
-<cube xmlns="http://www.intersystems.com/deepsee" name="HoleFoodSales" displayName="HoleFood Sales" disabled="false" abstract="false" sourceClass="HoleFoods.Transaction" namedFactNums="true" countMeasureName="%COUNT" bucketSize="8" bitmapChunkInMemory="false" precompute="0" disableListingGroups="false" enableSqlRestrict="false">
+<cube xmlns="http://www.intersystems.com/deepsee" name="HoleFoodsSales" displayName="HoleFoods Sales" disabled="false" abstract="false" sourceClass="HoleFoods.Transaction" namedFactNums="true" countMeasureName="%COUNT" bucketSize="8" bitmapChunkInMemory="false" precompute="0" disableListingGroups="false" enableSqlRestrict="false">
   <dimension name="Product" disabled="false" hasAll="false" allCaption="All Product" allDisplayName="Product" type="data" hidden="false" showHierarchies="default">
     <hierarchy name="H1" disabled="false" hidden="false">
       <level name="Product Category" disabled="false" sourceProperty="Product.Category" list="false" useDisplayValue="true" useAsFilter="true" hidden="false" factNumber="2">
