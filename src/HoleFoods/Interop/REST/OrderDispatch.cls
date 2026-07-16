@@ -7,6 +7,7 @@ XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
   <Route Url="/order" Method="POST" Call="PlaceOrder"/>
   <Route Url="/outlets" Method="GET" Call="GetOutlets"/>
   <Route Url="/products" Method="GET" Call="GetProducts"/>
+  <Route Url="/quizcheck" Method="POST" Call="CheckQuiz"/>
 </Routes>
 }
 
@@ -72,6 +73,27 @@ ClassMethod PlaceOrder() As %Status
     } catch ex {
         set %response.Status = "500 Internal Server Error"
         write "{""status"":""error"",""message"":""Internal error""}"
+    }
+    quit $$$OK
+}
+
+ClassMethod CheckQuiz() As %Status
+{
+    set %response.ContentType = "application/json"
+    try {
+        set rawJSON = %request.Content.ReadLine(32768)
+        set obj = ##class(%DynamicObject).%FromJSON(rawJSON)
+        set answer = obj.answer
+
+        if answer = 42 {
+            set ^HoleFoodsQuiz = 1
+            write "{""correct"":true,""message"":""Correct! 42 units of pasta were sold in Rome, Italy.""}"
+        } else {
+            write "{""correct"":false,""message"":""Have a closer look at the data!""}"
+        }
+    } catch ex {
+        set %response.Status = "500 Internal Server Error"
+        write "{""correct"":false,""message"":""Internal error""}"
     }
     quit $$$OK
 }

@@ -23,7 +23,7 @@ ClassMethod Restock(id As %String, newStock As %Numeric) As %Status [ Language =
         import iris #Embedded Python IRIS module
 
         # Open Product by ID
-        product = iris.HoleFoods.Product._OpenId(pId)
+        product = iris.HoleFoods.Product._OpenId(id)
 
         old_stock = product.Stock
 

@@ -304,10 +304,10 @@ ClassMethod CreateRecords(pNewBuild As %Boolean, pCount As %Integer = 100, pVerb
 			// use existing star tables
 
 			// outlets
-			set tRS = ##class(%ResultSet).%New()
-			set tSC = tRS.Prepare("SELECT ID FROM HoleFoods.Outlet")
+			set tStatement = ##class(%SQL.Statement).%New()
+			set tSC = tStatement.%Prepare("SELECT ID FROM HoleFoods.Outlet")
 			if $$$ISERR(tSC) quit
-			set tSC = tRS.Execute()
+			set tSC = tStatement.%Execute()
 			if $$$ISERR(tSC) quit
 
 			while (tRS.Next()) {
@@ -319,10 +319,10 @@ ClassMethod CreateRecords(pNewBuild As %Boolean, pCount As %Integer = 100, pVerb
 			}
 
 			// products
-			set tRS = ##class(%ResultSet).%New()
-			set tSC = tRS.Prepare("SELECT ID FROM HoleFoods.Product")
+			set tStatement = ##class(%SQL.Statement).%New()
+			set tSC = tStatement.%Prepare("SELECT ID FROM HoleFoods.Product")
 			if $$$ISERR(tSC) quit
-			set tSC = tRS.Execute()
+			set tSC = tRS.%Execute()
 			if $$$ISERR(tSC) quit
 
 			while (tRS.Next()) {
