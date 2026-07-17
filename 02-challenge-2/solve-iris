@@ -3,20 +3,22 @@
 exec > >(tee /tmp/solve-challenge-2.log) 2>&1
 set -euxo pipefail
 
-# Check if product already exists and insert if not
-cat > /tmp/solve-insert.cos <<'EOF'
-set stmt=##class(%SQL.Statement).%New()
-set status=stmt.%Prepare("SELECT COUNT(*) AS cnt FROM HoleFoods.Product WHERE SKU=?")
-set rs=stmt.%Execute("SKU-976")
-do rs.%Next()
-if rs.cnt = 0 set stmt2=##class(%SQL.Statement).%New()
-if rs.cnt = 0 set status=stmt2.%Prepare("INSERT INTO HoleFoods.Product (Category, Name, Price, SKU) VALUES (?, ?, ?, ?)")
-if rs.cnt = 0 set status=stmt2.%Execute("Snack", "Gummy Rings", 2.99, "SKU-976", 2200)
-if rs.cnt = 0 write "Product inserted successfully"
-if rs.cnt '= 0 write "Product already exists"
+
+su - irisowner <<'EOSU'
+cat <<'EOF' | iris session iris -UUSER
+set tRes=##class(%SQL.Statement).%ExecDirect(,"SELECT ID FROM HoleFoods.Product WHERE SKU='SKU-976'")
+set hasRow = tRes.%Next()
+set sql = "INSERT INTO HoleFoods.Product (Category, Name, Price, SKU, Stock) VALUES ('Snack', 'Gummy Rings', 2.99, 'SKU-976', 200)"
+w:hasRow "Skipping addition, product already exists"
+set stmt = ##class(%SQL.Statement).%New()
+set sc = stmt.%Prepare(sql)
+set:'hasRow rset = stmt.%Execute()
+w:($g(rset)=""&'hasRow) "SQL error"
+w:'hasRow "Adding Product"
+
+
 halt
 EOF
-
-su - irisowner -c "iris session IRIS -U USER < /tmp/solve-insert.cos" 2>/dev/null
+EOSU
 
 exit 0

@@ -6,7 +6,7 @@ set -uxo pipefail
 
 su - irisowner <<'EOSU'
 cat <<'EOF' | iris session iris -UUSER
-
+kill errors
 set sql = "SELECT ID FROM HoleFoods.Product WHERE SKU='SKU-976' AND Stock=300"
 set msg = "Have you restocked the Gummy Rings?"
 do ##class(%zInstruqt.CheckExtras).CheckSQLReturnsResults(sql, msg, .errors)

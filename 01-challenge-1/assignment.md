@@ -22,9 +22,15 @@ notes:
     > **Click the right arrow to Continue >**
 - type: text
   contents: |
-    InterSystems IRIS is an acronym, standing for Intuitive, Reliable, Interoperable and Scalable, the key cornerstones of InterSystems IRIS.
+    InterSystems IRIS is an acronym, standing for:
+    - Intuitive
+    - Reliable
+    - Interoperable
+    - Scalable
 
-    InterSystems IRIS is built wihin a Secure, roles-based access controlled environment, designed for the world's most important applications.
+    The key cornerstones of InterSystems IRIS.
+
+    InterSystems IRIS is built within a secure, controlled environment, designed for the world's most important applications.
 
     > **Click Start to Begin**
 tabs:
@@ -49,4 +55,4 @@ Take a moment to familiarise yourself with the available areas. From here, you c
 
 You do not need to understand everything, but this tour will guide you through some of these areas.
 
-When you are ready, click **Check** to continue.
+When you are ready, click **Next** to continue.

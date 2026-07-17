@@ -1,24 +1,25 @@
 #!/bin/bash
 
-exec > >(tee /tmp/check-challenge-4.log) 2>&1
+exec > >(tee /tmp/check-challenge-5.log) 2>&1
 set -uxo pipefail
 
 
 
 su - irisowner <<'EOSU'
 cat <<'EOF' | iris session iris -UUSER
+kill errors
+set sql = "SELECT SUM(UnitsSold) as cnt FROM HoleFoods.SalesTransaction WHERE Product->SKU='SKU-976'"
+set rs = ##class(%SQL.Statement).%ExecDirect(,sql)
+do rs.%Next()
+set count = rs.%Get("cnt")
 
-set sql = "SELECT ID FROM HoleFoods.SalesTransaction WHERE Product->SKU='SKU-976'"
-set msg = "Have you submit an Order using the web form?" 
+set msg = "Have you submitted an order for 100 units?" 
+do:count<101 ##class(%zInstruqt.Check).AddError(.errors, msg)
 
-do ##class(%zInstruqt.CheckExtras).CheckSQLReturnsResults(sql,msg,.errors)
 
-do ##class(%zInstruqt.CheckExtras).CheckComponentFunctioning("EmailOperation", .errors)
-
-set sql = "SELECT ID FROM Ens_Util.Log WHERE ConfigName = 'EmailOperation' and SourceMethod='SendMail'"
-set msg = "Have you re-submitted an order with the EmailOperation functioning?"
-do ##class(%zInstruqt.CheckExtras).CheckSQLReturnsResults(sql,msg,.errors)
-
+msg = "Have you got the correct answer in the Quiz?"
+set out = ^HoleFoodsQuiz
+do:'out ##class(%zInstruqt.Check).AddError(.errors, msg)
 do ##class(%zInstruqt.Check).Failure(.errors)
 EOCOS
 

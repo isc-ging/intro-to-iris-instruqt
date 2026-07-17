@@ -62,7 +62,7 @@ These components can be created from a library of pre-built connectors and added
 
 In our example, our production receives an order request and sends it to the **ToOrderProcessor**, which handles updating the database and organising the shipment.
 
-Let's add another component to send the customer a confirmation email. Hit "Create" to add a new component, and choose "Outbound Host" from the dropdown.
+Let's add another component to send the customer a confirmation email. **Hit "Create" to add a new component, and choose "Outbound Host" from the dropdown.**
 
 ![The Create button in the Interoperability Portal toolbar](..\assets\CreateButton.png)
 
@@ -72,9 +72,9 @@ To configure this, select:
   - Name = `ToEmail`
   - Tick the "Enable Now" checkbox
 
-When you are finished, click **Create**.
+**When you are finished, click Create.**
 
-Afterwards click on the new `ToEmail` Host, then click `Start Host`
+**Afterwards click on the new `ToEmail` Host, then click `Start Host`.**
 
 ![The Start Host button in the host configuration panel](..\assets\StartHost.png)
 

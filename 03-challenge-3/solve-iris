@@ -6,5 +6,6 @@ set -euxo pipefail
 su - irisowner <<'EOSU'
 cat <<'EOF' | iris session iris -UUSER
 do ##class(HoleFoods.ProductChanges).Restock("SKU-976", 100)
+halt
 EOF
 EOSU

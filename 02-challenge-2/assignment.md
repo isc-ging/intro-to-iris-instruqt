@@ -34,7 +34,7 @@ tabs:
 difficulty: ""
 enhanced_loading: null
 ---
-The most common type of database is the relational database, these are tabular databases - think giant, interlinked spreadsheets. IRIS can be used as a standard relational database.
+The most common type of database is the relational database, these are tabular databases - think giant, interlinked spreadsheets. InterSystems IRIS can be used as a standard relational database.
 
 **Copy this command into the text box in the middle of the page:**
 
@@ -94,4 +94,4 @@ FROM HoleFoods.Product
 
 You should be able to spot our new product in the list!
 
-Here we have run SQL from the Management Portal, but you can also run it from all the normal places, including from applications written in Python, Java, C++ and more. You can connect with industry-standard ODBC and JDBC, meaning you can integrate InterSystems IRIS with pretty much any existing application.
+So far, we have run SQL through the Management Portal, but you can execute it from many other environments, including applications written in Python, Java, C++, and more. InterSystems IRIS also supports industry-standard ODBC and JDBC connections, making it easy to integrate with almost any existing application.

@@ -87,9 +87,9 @@ ClassMethod CheckQuiz() As %Status
 
         if answer = 42 {
             set ^HoleFoodsQuiz = 1
-            write "{""correct"":true,""message"":""Correct! 42 units of pasta were sold in Rome, Italy.""}"
+            write "{""correct"":true,""message"":""42 units of pasta were sold in Rome, Italy.""}"
         } else {
-            write "{""correct"":false,""message"":""Have a closer look at the data!""}"
+            write "{""correct"":false,""message"":""Take a closer look at the data!""}"
         }
     } catch ex {
         set %response.Status = "500 Internal Server Error"

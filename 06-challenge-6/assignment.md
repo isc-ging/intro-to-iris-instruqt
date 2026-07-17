@@ -11,7 +11,7 @@ notes:
         - InterSystems IRIS with added healthcare modules
     - **InterSystems Data Studio**
         - Low code data integration system
-    - **HealthShare** family
+    - **HealthShare family**
         - Healthcare solutions built on InterSystems IRIS for Health, solving specific healthcare problems
     - **TrakCare and IntelliCare**
       - InterSystems' Electronic Healthcare Record systems, running hospitals around the globe
@@ -41,7 +41,7 @@ There are many features that we couldn't fit into this short tutorial, including
 - Machine Learning integrated into SQL
 - Extensive support for Healthcare data, including FHIR Servers (Available in InterSystems IRIS for Health)
 
-The Learning never stops! There are plenty more learning materials available from [InterSystems Learning Services](https://www.intersystems.com/education/).
+The learning never stops! There are plenty more learning materials available from [InterSystems Learning Services](https://www.intersystems.com/education/).
 
 For more interactive tutorials and quickstart guides for key topics, visit the [InterSystems Developer Hub](https://developer.intersystems.com).
 

@@ -68,6 +68,7 @@ EOSQL
 cat <<'EOF' | iris session iris -U%SYS
 set p("AutheEnabled")=8288
 do ##class(Security.Applications).Modify("/dsw",.p)
+halt
 EOF
 
 

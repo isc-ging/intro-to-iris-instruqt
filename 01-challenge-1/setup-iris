@@ -5,14 +5,11 @@ set -euxo pipefail
 
 exec > >(tee /tmp/setup-challenge-1.log) 2>&1
 
-apt-get update && apt-get install -y curl
-
-
 ## If is activated in Instruqt
-## else is activated Locally 
-## This ensures the same container setup is created for both. it works fine for both 
+## else is activated Locally
+## This ensures the same container setup is created for both. it works fine for both
 if [ ! -d "/home/irisowner/intro-to-iris-instruqt" ]; then
-	apt-get update && apt-get install -y git
+	apt-get update && apt-get install -y curl git
 	cd /home/irisowner
 	ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 	git clone https://www.github.com/isc-ging/intro-to-iris-instruqt
@@ -34,7 +31,7 @@ EOF
 
 
 
-cat > /tmp/CheckExtras.cls << EOF 
+cat > /tmp/CheckExtras.cls << 'EOF'
 
 Class %zInstruqt.CheckExtras
 {
