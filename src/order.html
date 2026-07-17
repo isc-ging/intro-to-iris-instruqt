@@ -336,7 +336,7 @@
         });
 
         var citySel = document.getElementById('city');
-        citySel.innerHTML = '<option value="">-- Select a location --</option>';
+        citySel.innerHTML = '';
         outlets.forEach(function(o) {
           var opt = document.createElement('option');
           opt.value = o.id;
@@ -344,6 +344,8 @@
           opt.textContent = o.city.charAt(0) + o.city.slice(1).toLowerCase() + ', ' + o.country;
           citySel.appendChild(opt);
         });
+        var bostonOpt = citySel.querySelector('option[value="25"]');
+        citySel.value = bostonOpt ? '25' : (citySel.options[0] ? citySel.options[0].value : '');
 
         updateSummary();
         document.getElementById('submitBtn').disabled = false;
