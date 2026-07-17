@@ -28,6 +28,9 @@ Method OnMessage(pRequest As HoleFoods.Interop.Msg.OrderRequest, Output pRespons
         set tx.DateTimeOfSale = $ZDT($H, 3)
         set tx.UnitsSold = pRequest.Quantity
         set tx.AmountOfSale = product.Price * pRequest.Quantity
+        if pRequest.OutletId '= "" {
+            set tx.Outlet = ##class(HoleFoods.Outlet).%OpenId(pRequest.OutletId)
+        }
         set tSC = tx.%Save()
         quit:$$$ISERR(tSC)
 

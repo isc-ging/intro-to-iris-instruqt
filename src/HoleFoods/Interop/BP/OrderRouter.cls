@@ -28,7 +28,6 @@ Method OnRequest(pRequest As HoleFoods.Interop.Msg.OrderRequest, Output pRespons
     
     if ..SyncTarget '= "" {
         set st =  ..SendRequestAsync(..SyncTarget,##class(Ens.Request).%New(), 0)
-        $$$LOGERROR(st)
     }
 
     quit tSC

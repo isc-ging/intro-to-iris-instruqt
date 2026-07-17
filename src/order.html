@@ -339,7 +339,8 @@
         citySel.innerHTML = '<option value="">-- Select a location --</option>';
         outlets.forEach(function(o) {
           var opt = document.createElement('option');
-          opt.value = o.city;
+          opt.value = o.id;
+          opt.dataset.city = o.city;
           opt.textContent = o.city.charAt(0) + o.city.slice(1).toLowerCase() + ', ' + o.country;
           citySel.appendChild(opt);
         });
@@ -368,16 +369,18 @@
       btn.disabled = true;
       btn.textContent = 'Placing order...';
 
-      var sku      = this.sku.value.trim();
-      var quantity = parseInt(this.quantity.value, 10);
-      var email    = this.email.value.trim();
-      var city     = this.city.value;
+      var sku       = this.sku.value.trim();
+      var quantity  = parseInt(this.quantity.value, 10);
+      var email     = this.email.value.trim();
+      var cityOpt   = this.city.options[this.city.selectedIndex];
+      var outletId  = parseInt(this.city.value, 10);
+      var city      = cityOpt ? cityOpt.dataset.city : '';
 
       try {
         var resp = await fetch('/api/holeFoods/order', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ SKU: sku, Quantity: quantity, Email: email, City: city })
+          body: JSON.stringify({ SKU: sku, Quantity: quantity, Email: email, City: city, OutletId: outletId })
         });
         var data = await resp.json();
 
