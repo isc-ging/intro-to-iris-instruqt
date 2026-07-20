@@ -25,12 +25,10 @@ ClassMethod Restock(id As %String, newStock As %Numeric) As %Status [ Language =
         # Open Product by ID
         product = iris.HoleFoods.Product._OpenId(id)
 
-        old_stock = product.Stock
-
         # Add the new stock to the existing value
         product.Stock = product.Stock + newStock
 
-        print(f"Restocking product, there is now {product.Stock} of {product.Name} units in stock")
+        print(f"Restocking product, there are now {product.Stock} of {product.Name} units in stock")
 
         # Save the changes to the database
         out = product._Save()
