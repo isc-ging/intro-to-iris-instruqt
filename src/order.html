@@ -324,14 +324,13 @@
         var outlets  = await outletsResp.json();
 
         var skuSel = document.getElementById('sku');
-        skuSel.innerHTML = '<option value="">-- Select a product --</option>';
+        skuSel.innerHTML = '<option value="" disabled selected>-- Select a product --</option>';
         products.forEach(function(p) {
           productPrices[p.sku] = p.price;
           productNames[p.sku]  = p.name;
           var opt = document.createElement('option');
           opt.value = p.sku;
           opt.textContent = p.name;
-          if (p.sku === 'SKU-976') opt.selected = true;
           skuSel.appendChild(opt);
         });
 
