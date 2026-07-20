@@ -22,15 +22,6 @@ tabs:
   hostname: iris
   path: /csp/sys/exp/%25CSP.UI.Portal.SQL.Home.zen?$NAMESPACE=USER
   port: 52773
-- id: voulgi1au7zo
-  title: term
-  type: terminal
-  hostname: iris
-- id: ysjywvao8tly
-  title: bash
-  type: terminal
-  hostname: iris
-  cmd: /bin/bash
 difficulty: ""
 enhanced_loading: null
 ---
@@ -46,7 +37,7 @@ FROM HoleFoods.Product
 
 **Then click Execute**
 
-You'll see a table of products from our fictional retailer of foods with holes in them.
+This command selects several columns from our HoleFoods.Products table, a list of products sold by our fictional retailer; HoleFoods. This is a shop which sells foods with holes in them.
 
 The *relational* part of the name refers to the tables being related to each other, meaning the data in one table might reference data from another table. Let's take a look at our table of transactions:
 
@@ -69,7 +60,7 @@ FROM HoleFoods.SalesTransaction
 ```
 This command uses `->` to implicitly join the Transactions and Products table to fetch the product name.
 
-These queries use SQL, or Structured Query Language, which is, as the name suggests, the universal way to query relational data.
+These queries use SQL, or Structured Query Language, which is the universal way to query relational data.
 
 ## Adding a new Product
 

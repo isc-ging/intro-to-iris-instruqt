@@ -10,7 +10,7 @@ notes:
     - **InterSystems IRIS for Health**
         - InterSystems IRIS with added healthcare modules
     - **InterSystems Data Studio**
-        - Low code data integration system
+        - Low-code data integration system
     - **HealthShare family**
         - Healthcare solutions built on InterSystems IRIS for Health, solving specific healthcare problems
     - **TrakCare and IntelliCare**
@@ -22,7 +22,7 @@ tabs:
   title: IRIS
   type: service
   hostname: iris
-  path: /csp/sys/%25CSP.Portal.Home.zen
+  path: /csp/user/%25CSP.Portal.Home.zen
   port: 52773
 - id: 0bnldbodyvic
   title: VS Code

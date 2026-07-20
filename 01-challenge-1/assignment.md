@@ -2,7 +2,7 @@
 slug: challenge-1
 id: w54gu5h5s7cr
 type: challenge
-title: Welcome to IRIS
+title: Welcome to InterSystems IRIS
 notes:
 - type: text
   contents: |
@@ -25,14 +25,14 @@ notes:
     InterSystems IRIS is an acronym, standing for:
     - Intuitive
     - Reliable
-    - Interoperable
+    - Interoperable *(easily integrates with other systems)*
     - Scalable
 
     The key cornerstones of InterSystems IRIS.
 
     InterSystems IRIS is built within a secure, controlled environment, designed for the world's most important applications.
 
-    > **Click Start to Begin**
+    > **Click Start in the bottom right to begin**
 tabs:
 - id: 5g0s5v617m0s
   title: IRIS
@@ -45,7 +45,7 @@ enhanced_loading: null
 ---
 Welcome to the Management Portal, the central interface for managing and exploring InterSystems IRIS.
 
-Take a moment to familiarise yourself with the available areas. From here, you can access:
+Take a moment to familiarize yourself with the available areas. From here, you can access:
 
 - **Analytics** for exploring data and insights
 - **Interoperability** for connecting systems and applications
